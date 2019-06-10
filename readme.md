@@ -11,3 +11,24 @@
 - 添加 `predis/predis` 扩展
 
 	* `composer require predis/predis`
+
+## laravel-nova
+
+- 添加 `laravel/nova` 扩展, 并安装
+
+	* `composer.json`
+
+	```json
+		"repositories": [
+			{
+				"type":"path",
+				"url": "./packages/laravel-nova"
+			}
+		]
+	```
+
+	* `composer require laravel/nova:*`
+
+	* `php artisan nova:install`
+
+	* `php artisan migrate`

@@ -2,6 +2,16 @@
 
 ## master
 
+- 修改默认语言和时区 `config/app.php`
+
+	* `'timezone' => 'PRC',`
+
+	* `'locale' => 'zh',`
+
+	* `'fallback_locale' => 'zh',`
+
+	* `'faker_locale' => 'zh_CN',`
+
 - 将默认的用户 Model 由 `App` 移动到 `App\Models`, 并修改相关文件
 
 	* `mkdir app/Models && mv app/User.php app/Models/User.php` 

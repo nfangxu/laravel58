@@ -8,8 +8,9 @@
                 <div class="card-header justify-content-between">
                     <h4 class="mb-1">{{ $post->title }}</h4>
                     <small>
-                        <a href="#">{{ $post->author ?: 'Administrator' }}</a> 发布于
-                        <code>{{ $post->updated_at->diffForHumans() }}</code>
+                        <a href="#">{{ $post->author ?: 'Administrator' }}</a> 
+                        创建自 <code>{{ $post->created_at }}</code> 
+                        最后修改于 <code>{{ $post->updated_at->diffForHumans() }}</code>
                     </small>
                 </div>
 

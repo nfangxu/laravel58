@@ -20,9 +20,9 @@ Route::middleware('verified')->group(function () {
 
 Route::prefix('posts')->group(function () {
     Route::get('/', 'PostController@index')->name('posts.index');
-    Route::get('{slug}', 'PostController@show')->name('posts.show');
+    Route::get('{slug}.html', 'PostController@show')->name('posts.show');
 });
 
 Route::prefix('tags')->group(function () {
-    Route::get('posts/{slug}', 'TagController@posts')->name('tags.posts');
+    Route::get('posts/{slug}.html', 'TagController@posts')->name('tags.posts');
 });

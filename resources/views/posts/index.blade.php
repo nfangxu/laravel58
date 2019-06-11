@@ -16,16 +16,7 @@
                                 <span>{{ $post->updated_at->diffForHumans() }}</span>
                             </small>
                         </div>
-                        <p class="mb-1"
-                            style="text-overflow: -o-ellipsis-lastline;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            display: -webkit-box;
-                            -webkit-line-clamp: 5;
-                            -webkit-box-orient: vertical;"
-                        >
-                            简介
-                        </p>
+                        <p class="mb-1">{{ $post->summary }}</p>
                         <div class="d-flex w-100 justify-content-between">
                             <small>
                                 <a class="btn btn-dark btn-sm" 

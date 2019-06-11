@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\MorphToMany;
+use Laravel\Nova\Fields\Textarea;
 
 class Post extends Resource
 {
@@ -27,6 +28,7 @@ class Post extends Resource
             ID::make('文章ID', 'id')->sortable(),
             Text::make('标题', 'title')->rules('required'),
             Text::make('Slug')->hideWhenCreating()->hideWhenUpdating(),
+            Textarea::make('简介', 'summary')->rules('required', 'max:200'),
             Markdown::make('内容', 'content')->rules('required'),
             Boolean::make('是否发布', 'is_published'),
             MorphToMany::make('Tags')

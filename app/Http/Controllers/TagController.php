@@ -11,7 +11,7 @@ class TagController extends Controller
     {
         $tag = Tag::whereSlug($slug)->first();
 
-        $posts = $tag->posts()->simplePaginate(20);
+        $posts = $tag->posts()->guest()->simplePaginate(20);
 
         return view('posts.index', compact('posts'));
     }

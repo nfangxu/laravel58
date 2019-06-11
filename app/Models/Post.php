@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Fx\Slug\Contacts\FxSlug;
 
 class Post extends Model
 {
@@ -18,7 +18,7 @@ class Post extends Model
         parent::boot();
 
         static::saving(function ($post) {
-            $post->slug = Str::slug($post->title, '-');
+            $post->slug = app(FxSlug::class)->slug($post->title);
         });
     }
 }

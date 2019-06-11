@@ -25,6 +25,7 @@ class Post extends Resource
         return [
             ID::make('文章ID', 'id')->sortable(),
             Text::make('标题', 'title')->rules('required'),
+            Text::make('Slug')->hideWhenCreating()->hideWhenUpdating(),
             Markdown::make('内容', 'content')->rules('required'),
             Boolean::make('是否发布', 'is_published'),
         ];

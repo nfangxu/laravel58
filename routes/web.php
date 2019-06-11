@@ -10,7 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::redirect('/', 'posts', 301);
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::prefix('posts')->group(function (){
+    Route::get('/', 'PostController@index')->name('posts.index');
+    Route::get('{slug}', 'PostController@show')->name('posts.show');
 });

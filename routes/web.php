@@ -12,7 +12,11 @@
 */
 Route::redirect('/', 'posts', 301);
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+
+Route::middleware('verified')->group(function () {
+    Route::get('home', 'HomeController@index')->name('home');
+});
 
 Route::prefix('posts')->group(function () {
     Route::get('/', 'PostController@index')->name('posts.index');

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Password;
 use App\Models\User as Model;
+use Laravel\Nova\Fields\MorphToMany;
 
 class User extends Resource
 {
@@ -37,6 +38,7 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+            MorphToMany::make('Tags'),
         ];
     }
 

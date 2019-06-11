@@ -3,33 +3,30 @@
 namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Models\Post as Model;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Markdown;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\MorphToMany;
+use App\Models\Tag as Model;
+use Laravel\Nova\Fields\MorphedByMany;
 
-class Post extends Resource
+class Tag extends Resource
 {
     public static $model = Model::class;
 
-    public static $title = 'title';
+    public static $title = 'name';
 
     public static $search = [
-        'title',
+        'name',
     ];
 
     public function fields(Request $request)
     {
         return [
-            ID::make('文章ID', 'id')->sortable(),
-            Text::make('标题', 'title')->rules('required'),
+            ID::make('标签 ID', 'id')->sortable(),
+            Text::make('标签名', 'name')->rules('required'),
             Text::make('Slug')->hideWhenCreating()->hideWhenUpdating(),
-            Markdown::make('内容', 'content')->rules('required'),
-            Boolean::make('是否发布', 'is_published'),
-            MorphToMany::make('Tags')
+            MorphedByMany::make('Posts'),
+            MorphedByMany::make('Users'),
         ];
     }
 

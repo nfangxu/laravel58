@@ -13,7 +13,7 @@
                             <h4 class="mb-1">{{ $post->title }}</h4>
                             <small>
                                 <a href="#">{{ $post->author ?: 'Administrator' }}</a> @
-                                <span>{{ $post->updated_at }}</span>
+                                <span>{{ $post->updated_at->diffForHumans() }}</span>
                             </small>
                         </div>
                         <p class="mb-1"
@@ -32,7 +32,9 @@
                                     href="{{ route("posts.show", $post->slug) }}">查看全文</a>
                             </small>
                             <small>
-                                <span class="btn btn-outline-dark btn-sm">标签1</button>
+                                @foreach ($post->tags as $tag)
+                                    <a href="{{ route("tags.posts", $tag->slug) }}" class="btn btn-outline-dark btn-sm">{{ $tag->name }}</a>
+                                @endforeach
                             </small>
                         </div>
                     </div>

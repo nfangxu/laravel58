@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Fx\Slug\Contacts\FxSlug;
+use App\Models\Traits\HasTag;
 
 class Post extends Model
 {
+    use HasTag;
+
     protected $fillable = ['slug', 'title', 'content', 'is_published'];
 
     protected $casts = [

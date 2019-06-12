@@ -12,6 +12,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
+
+                    诶? 啥也么得! 
                 </div>
             </div>
         </div>

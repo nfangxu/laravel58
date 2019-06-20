@@ -1,0 +1,31 @@
+{
+    "name": "fx/admin",
+    "description": "fx admin",
+    "version": "v1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nfangxu",
+            "email": "nfangxu@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FxAdmin\\Providers\\FxAdminServiceProvider"
+            ],
+            "aliases": {
+                "Fx": "FxAdmin\\Facades\\Fx"
+            }
+        }
+    },
+    "autoload": {
+        "files": [],
+        "psr-4": {
+            "FxAdmin\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}

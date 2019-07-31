@@ -21,7 +21,10 @@
                         </div>
                     @endif
 
-                    <vue-markdown v-highlight>{{ $post->content }}</vue-markdown>
+                    <div class="content" v-highlight>
+                        @markdown($post->content)
+                    </div>
+
                 </div>
 
                 <div class="card-footer">

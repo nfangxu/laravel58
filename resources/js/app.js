@@ -19,8 +19,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('vue-markdown', require('vue-markdown').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 Vue.directive('highlight', (el) => {

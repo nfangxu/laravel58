@@ -8,15 +8,13 @@ RUN composer config -g repo.packagist composer https://mirrors.aliyun.com/compos
 # composer install
 COPY composer.json composer.json
 COPY composer.lock composer.lock
-RUN composer install 
-# \ --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
+RUN composer install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
 
 # 复制文件
 COPY . .
 
 # finish composer
-RUN composer dump-autoload 
-# --no-scripts --no-dev --optimize
+RUN composer dump-autoload --no-scripts --no-dev --optimize
 
 # 更改目录权限
 RUN chown -R www-data /var/www/html/public && chown -R www-data /var/www/html/storage

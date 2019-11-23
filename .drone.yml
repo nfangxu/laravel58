@@ -29,6 +29,7 @@ steps:
 - name: deploy
   image: kubectl:v1.16.2
   commands:
+  - echo ${ALIYUN_USERNAME}
   - sed -i -e 's/__TAG__/auto-${DRONE_BUILD_NUMBER}/g' deploy.yml || true
   - sed -i -e 's/__NAME__/blog/g' deploy.yml || true
   - kubectl apply -f deploy.yml

@@ -8,6 +8,7 @@ RUN composer config -g repo.packagist composer https://mirrors.aliyun.com/compos
 # composer install
 COPY composer.json composer.json
 COPY composer.lock composer.lock
+COPY packages packages
 RUN composer install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
 
 # 复制文件

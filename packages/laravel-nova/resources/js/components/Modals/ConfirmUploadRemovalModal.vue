@@ -1,9 +1,14 @@
 <template>
     <modal @modal-close="handleClose">
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden" style="width: 460px">
+        <div
+            class="bg-white rounded-lg shadow-lg overflow-hidden"
+            style="width: 460px"
+        >
             <div class="p-8">
                 <heading :level="2" class="mb-6">{{ __('Delete File') }}</heading>
-                <p class="text-80">{{ __('Are you sure you want to delete this file?') }}</p>
+                <p class="text-80">
+                    {{ __('Are you sure you want to delete this file?') }}
+                </p>
             </div>
 
             <div class="bg-30 px-6 py-3 flex">
@@ -17,6 +22,7 @@
                     >
                         {{ __('Cancel') }}
                     </button>
+
                     <button
                         dusk="confirm-upload-delete-button"
                         ref="confirmButton"

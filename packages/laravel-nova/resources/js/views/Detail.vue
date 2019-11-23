@@ -44,7 +44,7 @@
                 :panel="panel"
             >
                 <div v-if="panel.showToolbar" class="flex items-center mb-3">
-                    <h4 class="text-90 font-normal text-2xl flex-no-shrink">{{ panel.name }}</h4>
+                    <heading :level="1" class="flex-no-shrink">{{ panel.name }}</heading>
 
                     <div class="ml-3 w-full flex items-center">
                         <custom-detail-toolbar
@@ -61,13 +61,13 @@
                             :pivot-actions="{ actions: [] }"
                             :selected-resources="selectedResources"
                             :query-string="{
-                                currentSearch,
-                                encodedFilters,
-                                currentTrashed,
-                                viaResource,
-                                viaResourceId,
-                                viaRelationship,
-                            }"
+                currentSearch,
+                encodedFilters,
+                currentTrashed,
+                viaResource,
+                viaResourceId,
+                viaRelationship,
+              }"
                             @actionExecuted="actionExecuted"
                             class="ml-3"
                         />
@@ -80,7 +80,7 @@
                             class="btn btn-default btn-icon btn-white mr-3"
                             :title="__('Delete')"
                         >
-                            <icon type="delete" class="text-80" />
+                            <icon type="delete" class="text-80"/>
                         </button>
 
                         <button
@@ -91,7 +91,7 @@
                             class="btn btn-default btn-icon btn-white mr-3"
                             :title="__('Restore')"
                         >
-                            <icon type="restore" class="text-80" />
+                            <icon type="restore" class="text-80"/>
                         </button>
 
                         <button
@@ -102,39 +102,32 @@
                             class="btn btn-default btn-icon btn-white mr-3"
                             :title="__('Force Delete')"
                         >
-                            <icon type="force-delete" class="text-80" />
+                            <icon type="force-delete" class="text-80"/>
                         </button>
 
-                        <portal to="modals">
-                            <transition name="fade">
-                                <delete-resource-modal
-                                    v-if="deleteModalOpen"
-                                    @confirm="confirmDelete"
-                                    @close="closeDeleteModal"
-                                    mode="delete"
-                                />
-                            </transition>
-                        </portal>
+                        <portal
+                            to="modals"
+                            v-if="deleteModalOpen || restoreModalOpen || forceDeleteModalOpen"
+                        >
+                            <delete-resource-modal
+                                v-if="deleteModalOpen"
+                                @confirm="confirmDelete"
+                                @close="closeDeleteModal"
+                                mode="delete"
+                            />
 
-                        <portal to="modals">
-                            <transition name="fade">
-                                <restore-resource-modal
-                                    v-if="restoreModalOpen"
-                                    @confirm="confirmRestore"
-                                    @close="closeRestoreModal"
-                                />
-                            </transition>
-                        </portal>
+                            <restore-resource-modal
+                                v-if="restoreModalOpen"
+                                @confirm="confirmRestore"
+                                @close="closeRestoreModal"
+                            />
 
-                        <portal to="modals">
-                            <transition name="fade">
-                                <delete-resource-modal
-                                    v-if="forceDeleteModalOpen"
-                                    @confirm="confirmForceDelete"
-                                    @close="closeForceDeleteModal"
-                                    mode="force delete"
-                                />
-                            </transition>
+                            <delete-resource-modal
+                                v-if="forceDeleteModalOpen"
+                                @confirm="confirmForceDelete"
+                                @close="closeForceDeleteModal"
+                                mode="force delete"
+                            />
                         </portal>
 
                         <router-link
@@ -186,7 +179,7 @@ export default {
     }),
 
     watch: {
-        resourceId: function(newResourceId, oldResourceId) {
+        resourceId: function (newResourceId, oldResourceId) {
             if (newResourceId != oldResourceId) {
                 this.initializeComponent()
             }
@@ -197,7 +190,8 @@ export default {
      * Bind the keydown even listener when the component is created
      */
     created() {
-        if (Nova.missingResource(this.resourceName)) return this.$router.push({ name: '404' })
+        if (Nova.missingResource(this.resourceName))
+            return this.$router.push({name: '404'})
 
         document.addEventListener('keydown', this.handleKeydown)
     },
@@ -231,7 +225,10 @@ export default {
                 e.target.tagName != 'INPUT' &&
                 e.target.tagName != 'TEXTAREA'
             ) {
-                this.$router.push({ name: 'edit', params: { id: this.resource.id } })
+                this.$router.push({
+                    name: 'edit',
+                    params: {id: this.resource.id},
+                })
             }
         },
 
@@ -252,9 +249,11 @@ export default {
             this.resource = null
 
             return Minimum(
-                Nova.request().get('/nova-api/' + this.resourceName + '/' + this.resourceId)
+                Nova.request().get(
+                    '/nova-api/' + this.resourceName + '/' + this.resourceId
+                )
             )
-                .then(({ data: { panels, resource } }) => {
+                .then(({data: {panels, resource}}) => {
                     this.panels = panels
                     this.resource = resource
                     this.loading = false
@@ -266,20 +265,20 @@ export default {
                     }
 
                     if (error.response.status === 404 && this.initialLoading) {
-                        this.$router.push({ name: '404' })
+                        this.$router.push({name: '404'})
                         return
                     }
 
                     if (error.response.status === 403) {
-                        this.$router.push({ name: '403' })
+                        this.$router.push({name: '403'})
                         return
                     }
 
-                    this.$toasted.show(this.__('This resource no longer exists'), { type: 'error' })
+                    Nova.error(this.__('This resource no longer exists'))
 
                     this.$router.push({
                         name: 'index',
-                        params: { resourceName: this.resourceName },
+                        params: {resourceName: this.resourceName},
                     })
                 })
         },
@@ -297,9 +296,7 @@ export default {
                     },
                 })
                 .then(response => {
-                    this.actions = _.filter(response.data.actions, action => {
-                        return !action.onlyOnIndex
-                    })
+                    this.actions = _.filter(response.data.actions, a => a.showOnDetail)
                 })
         },
 
@@ -315,9 +312,12 @@ export default {
          * Create a new panel for the given field.
          */
         createPanelForField(field) {
-            return _.tap(_.find(this.panels, panel => panel.name == field.panel), panel => {
-                panel.fields = [field]
-            })
+            return _.tap(
+                _.find(this.panels, panel => panel.name == field.panel),
+                panel => {
+                    panel.fields = [field]
+                }
+            )
         },
 
         /**
@@ -337,17 +337,16 @@ export default {
          */
         async confirmDelete() {
             this.deleteResources([this.resource], () => {
-                this.$toasted.show(
+                Nova.success(
                     this.__('The :resource was deleted!', {
                         resource: this.resourceInformation.singularLabel.toLowerCase(),
-                    }),
-                    { type: 'success' }
+                    })
                 )
 
                 if (!this.resource.softDeletes) {
                     this.$router.push({
                         name: 'index',
-                        params: { resourceName: this.resourceName },
+                        params: {resourceName: this.resourceName},
                     })
                     return
                 }
@@ -376,11 +375,10 @@ export default {
          */
         async confirmRestore() {
             this.restoreResources([this.resource], () => {
-                this.$toasted.show(
+                Nova.success(
                     this.__('The :resource was restored!', {
                         resource: this.resourceInformation.singularLabel.toLowerCase(),
-                    }),
-                    { type: 'success' }
+                    })
                 )
 
                 this.closeRestoreModal()
@@ -407,14 +405,16 @@ export default {
          */
         async confirmForceDelete() {
             this.forceDeleteResources([this.resource], () => {
-                this.$toasted.show(
+                Nova.success(
                     this.__('The :resource was deleted!', {
                         resource: this.resourceInformation.singularLabel.toLowerCase(),
-                    }),
-                    { type: 'success' }
+                    })
                 )
 
-                this.$router.push({ name: 'index', params: { resourceName: this.resourceName } })
+                this.$router.push({
+                    name: 'index',
+                    params: {resourceName: this.resourceName},
+                })
             })
         },
 

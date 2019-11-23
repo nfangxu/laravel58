@@ -43,7 +43,7 @@ export default {
         },
     },
 
-    data: () => ({ expanded: false }),
+    data: () => ({expanded: false}),
 
     methods: {
         toggle() {

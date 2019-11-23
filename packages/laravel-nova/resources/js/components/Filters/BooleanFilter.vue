@@ -1,6 +1,8 @@
 <template>
     <div>
-        <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">{{ filter.name }}</h3>
+        <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
+            {{ filter.name }}
+        </h3>
 
         <BooleanOption
             :resource-name="resourceName"
@@ -17,7 +19,7 @@
 import BooleanOption from '@/components/BooleanOption.vue'
 
 export default {
-    components: { BooleanOption },
+    components: {BooleanOption},
 
     props: {
         resourceName: {
@@ -39,11 +41,15 @@ export default {
 
     computed: {
         filter() {
-            return this.$store.getters[`${this.resourceName}/getFilter`](this.filterKey)
+            return this.$store.getters[`${this.resourceName}/getFilter`](
+                this.filterKey
+            )
         },
 
         options() {
-            return this.$store.getters[`${this.resourceName}/getOptionsForFilter`](this.filterKey)
+            return this.$store.getters[`${this.resourceName}/getOptionsForFilter`](
+                this.filterKey
+            )
         },
     },
 }

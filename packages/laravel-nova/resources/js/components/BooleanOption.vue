@@ -3,7 +3,7 @@
         <checkbox-with-label
             class="m-2"
             :checked="isChecked"
-            @change="updateCheckedState(option.value, $event)"
+            @input="updateCheckedState(option.value, $event.target.checked)"
         >
             {{ option.name }}
         </checkbox-with-label>
@@ -14,7 +14,7 @@
 import Checkbox from '@/components/Index/Checkbox'
 
 export default {
-    components: { Checkbox },
+    components: {Checkbox},
 
     props: {
         resourceName: {
@@ -26,9 +26,9 @@ export default {
     },
 
     methods: {
-        updateCheckedState(optionKey, event) {
+        updateCheckedState(optionKey, checked) {
             let oldValue = this.filter.currentValue
-            let newValue = { ...oldValue, [optionKey]: event.target.checked }
+            let newValue = {...oldValue, [optionKey]: checked}
 
             this.$store.commit(`${this.resourceName}/updateFilterState`, {
                 filterClass: this.filter.class,

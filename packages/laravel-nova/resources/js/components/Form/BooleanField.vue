@@ -2,7 +2,7 @@
     <default-field :field="field" :errors="errors">
         <template slot="field">
             <checkbox
-                class="py-2"
+                class="mt-2"
                 @input="toggle"
                 :id="field.attribute"
                 :name="field.name"

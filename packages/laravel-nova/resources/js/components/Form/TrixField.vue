@@ -1,10 +1,15 @@
 <template>
-    <default-field :field="field" :errors="errors" :full-width-content="true">
+    <default-field
+        :field="field"
+        :errors="errors"
+        :full-width-content="true"
+        :key="index"
+    >
         <template slot="field">
             <div class="rounded-lg" :class="{ disabled: isReadonly }">
                 <trix
                     name="trixman"
-                    :value="field.value"
+                    :value="value"
                     @change="handleChange"
                     @file-add="handleFileAdd"
                     @file-remove="handleFileRemove"
@@ -25,12 +30,19 @@ import { FormField, HandlesValidationErrors } from 'laravel-nova'
 
 export default {
     mixins: [HandlesValidationErrors, FormField],
-    components: { Trix },
+    components: {Trix},
 
-    data: () => ({ draftId: uuidv4() }),
+    data: () => ({draftId: uuidv4(), index: 0}),
 
     beforeDestroy() {
         this.cleanUp()
+    },
+
+    mounted() {
+        Nova.$on(this.field.attribute + '-value', value => {
+            this.value = value
+            this.index++
+        })
     },
 
     methods: {
@@ -42,7 +54,7 @@ export default {
         /**
          * Initiate an attachement upload
          */
-        handleFileAdd({ attachment }) {
+        handleFileAdd({attachment}) {
             if (attachment.file) {
                 this.uploadAttachment(attachment)
             }
@@ -62,16 +74,14 @@ export default {
                     `/nova-api/${this.resourceName}/trix-attachment/${this.field.attribute}`,
                     data,
                     {
-                        onUploadProgress: function(progressEvent) {
+                        onUploadProgress: function (progressEvent) {
                             attachment.setUploadProgress(
                                 Math.round((progressEvent.loaded * 100) / progressEvent.total)
                             )
                         },
                     }
                 )
-                .then(({ data: { url } }) => {
-                    console.log(url)
-
+                .then(({data: {url}}) => {
                     return attachment.setAttributes({
                         url: url,
                         href: url,
@@ -82,13 +92,20 @@ export default {
         /**
          * Remove an attachment from the server
          */
-        handleFileRemove({ attachment: { attachment } }) {
+        handleFileRemove({attachment: {attachment}}) {
             Nova.request()
-                .delete(`/nova-api/${this.resourceName}/trix-attachment/${this.field.attribute}`, {
-                    params: { attachmentUrl: attachment.attributes.values.url },
+                .delete(
+                    `/nova-api/${this.resourceName}/trix-attachment/${this.field.attribute}`,
+                    {
+                        params: {
+                            attachmentUrl: attachment.attributes.values.url,
+                        },
+                    }
+                )
+                .then(response => {
                 })
-                .then(response => {})
-                .catch(error => {})
+                .catch(error => {
+                })
         },
 
         /**
@@ -98,12 +115,11 @@ export default {
             if (this.field.withFiles) {
                 Nova.request()
                     .delete(
-                        `/nova-api/${this.resourceName}/trix-attachment/${this.field.attribute}/${
-                            this.draftId
-                        }`
+                        `/nova-api/${this.resourceName}/trix-attachment/${this.field.attribute}/${this.draftId}`
                     )
                     .then(response => console.log(response))
-                    .catch(error => {})
+                    .catch(error => {
+                    })
             }
         },
     },
@@ -128,7 +144,10 @@ export default {
 
 function uuidv4() {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-        (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
+        (
+            c ^
+            (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+        ).toString(16)
     )
 }
 </script>

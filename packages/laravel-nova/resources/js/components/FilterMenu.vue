@@ -2,20 +2,20 @@
     <dropdown
         v-if="filters.length > 0 || softDeletes || !viaResource"
         dusk="filter-selector"
-        class-whitelist="flatpickr-calendar"
     >
         <dropdown-trigger
-            slot-scope="{ toggle }"
-            :handle-click="toggle"
             class="bg-30 px-3 border-2 border-30 rounded"
             :class="{ 'bg-primary border-primary': filtersAreApplied }"
             :active="filtersAreApplied"
         >
-            <icon type="filter" :class="filtersAreApplied ? 'text-white' : 'text-80'" />
+            <icon
+                type="filter"
+                :class="filtersAreApplied ? 'text-white' : 'text-80'"
+            />
 
             <span v-if="filtersAreApplied" class="ml-2 font-bold text-white text-80">
-                {{ activeFilterCount }}
-            </span>
+        {{ activeFilterCount }}
+      </span>
         </dropdown-trigger>
 
         <dropdown-menu slot="menu" width="290" direction="rtl" :dark="true">
@@ -43,7 +43,10 @@
 
                 <!-- Soft Deletes -->
                 <div v-if="softDeletes && showTrashedOption">
-                    <h3 slot="default" class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
+                    <h3
+                        slot="default"
+                        class="text-sm uppercase tracking-wide text-80 bg-30 p-3"
+                    >
                         {{ __('Trashed') }}
                     </h3>
 
@@ -64,7 +67,10 @@
 
                 <!-- Per Page -->
                 <div v-if="!viaResource">
-                    <h3 slot="default" class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
+                    <h3
+                        slot="default"
+                        class="text-sm uppercase tracking-wide text-80 bg-30 p-3"
+                    >
                         {{ __('Per Page') }}
                     </h3>
 
@@ -76,9 +82,9 @@
                             :value="perPage"
                             @change="perPageChanged"
                         >
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                            <option v-for="option in perPageOptions" :key="option">
+                                {{ option }}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -104,6 +110,7 @@ export default {
             validator: value => ['', 'with', 'only'].indexOf(value) != -1,
         },
         perPage: [String, Number],
+        perPageOptions: Array,
         showTrashedOption: {
             type: Boolean,
             default: true,

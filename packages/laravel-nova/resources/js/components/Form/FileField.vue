@@ -31,43 +31,45 @@
                         v-if="shouldShowRemoveButton"
                         @click="confirmRemoval"
                     >
-                        <span class="class ml-2 mt-1"> {{ __('Delete') }} </span>
+            <span class="class ml-2 mt-1">
+              {{ __('Delete') }}
+            </span>
                     </DeleteButton>
                 </p>
 
                 <portal to="modals">
-                    <transition name="fade">
-                        <confirm-upload-removal-modal
-                            v-if="removeModalOpen"
-                            @confirm="removeFile"
-                            @close="closeRemoveModal"
-                        />
-                    </transition>
+                    <confirm-upload-removal-modal
+                        v-if="removeModalOpen"
+                        @confirm="removeFile"
+                        @close="closeRemoveModal"
+                    />
                 </portal>
             </div>
 
             <span class="form-file mr-4" :class="{ 'opacity-75': isReadonly }">
-                <input
-                    ref="fileField"
-                    :dusk="field.attribute"
-                    class="form-file-input select-none"
-                    type="file"
-                    :id="idAttr"
-                    name="name"
-                    @change="fileChange"
-                    :disabled="isReadonly"
-                />
-                <label
-                    :for="labelFor"
-                    class="form-file-btn btn btn-default btn-primary select-none"
-                >
-                    {{ __('Choose File') }}
-                </label>
-            </span>
+        <input
+            ref="fileField"
+            :dusk="field.attribute"
+            class="form-file-input select-none"
+            type="file"
+            :id="idAttr"
+            name="name"
+            @change="fileChange"
+            :disabled="isReadonly"
+        />
+        <label
+            :for="labelFor"
+            class="form-file-btn btn btn-default btn-primary select-none"
+        >
+          {{ __('Choose File') }}
+        </label>
+      </span>
 
             <span class="text-gray-50 select-none"> {{ currentLabel }} </span>
 
-            <p v-if="hasError" class="text-xs mt-2 text-danger">{{ firstError }}</p>
+            <p v-if="hasError" class="text-xs mt-2 text-danger">
+                {{ firstError }}
+            </p>
         </template>
     </default-field>
 </template>
@@ -78,11 +80,16 @@ import DeleteButton from '@/components/DeleteButton'
 import { FormField, HandlesValidationErrors, Errors } from 'laravel-nova'
 
 export default {
-    props: ['resourceId', 'relatedResourceName', 'relatedResourceId', 'viaRelationship'],
+    props: [
+        'resourceId',
+        'relatedResourceName',
+        'relatedResourceId',
+        'viaRelationship',
+    ],
 
     mixins: [HandlesValidationErrors, FormField],
 
-    components: { DeleteButton, ImageLoader },
+    components: {DeleteButton, ImageLoader},
 
     data: () => ({
         file: null,
@@ -103,7 +110,7 @@ export default {
 
     methods: {
         /**
-         * Responsd to the file change
+         * Respond to the file change
          */
         fileChange(event) {
             let path = event.target.value

@@ -21,11 +21,11 @@ export default {
     name: 'trix-vue',
 
     props: {
-        name: { type: String },
-        value: { type: String },
-        placeholder: { type: String },
-        withFiles: { type: Boolean, default: true },
-        disabled: { type: Boolean, default: false },
+        name: {type: String},
+        value: {type: String},
+        placeholder: {type: String},
+        withFiles: {type: Boolean, default: true},
+        disabled: {type: Boolean, default: false},
     },
 
     methods: {

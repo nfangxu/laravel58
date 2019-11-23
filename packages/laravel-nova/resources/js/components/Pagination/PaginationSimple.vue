@@ -6,9 +6,9 @@
                 :disabled="!hasPreviousPages || linksDisabled"
                 class="btn btn-link py-3 px-4"
                 :class="{
-                    'text-primary dim': hasPreviousPages,
-                    'text-80 opacity-50': !hasPreviousPages || linksDisabled,
-                }"
+          'text-primary dim': hasPreviousPages,
+          'text-80 opacity-50': !hasPreviousPages || linksDisabled,
+        }"
                 rel="prev"
                 @click.prevent="selectPreviousPage"
                 dusk="previous"
@@ -16,16 +16,16 @@
                 {{ __('Previous') }}
             </button>
 
-            <slot />
+            <slot/>
 
             <!-- Next Link -->
             <button
                 :disabled="!hasMorePages || linksDisabled"
                 class="btn btn-link py-3 px-4"
                 :class="{
-                    'text-primary dim': hasMorePages,
-                    'text-80 opacity-50': !hasMorePages || linksDisabled,
-                }"
+          'text-primary dim': hasMorePages,
+          'text-80 opacity-50': !hasMorePages || linksDisabled,
+        }"
                 rel="next"
                 @click.prevent="selectNextPage"
                 dusk="next"
@@ -57,7 +57,7 @@ export default {
         },
     },
 
-    data: () => ({ linksDisabled: false }),
+    data: () => ({linksDisabled: false}),
 
     mounted() {
         Nova.$on('resources-loaded', () => {
@@ -93,14 +93,14 @@ export default {
         /**
          * Determine if prior pages are available.
          */
-        hasPreviousPages: function() {
+        hasPreviousPages: function () {
             return this.previous
         },
 
         /**
          * Determine if more pages are available.
          */
-        hasMorePages: function() {
+        hasMorePages: function () {
             return this.next
         },
     },

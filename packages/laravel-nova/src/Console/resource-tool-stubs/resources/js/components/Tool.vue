@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    props: ['resourceName', 'resourceId', 'field'],
+    props: ['resourceName', 'resourceId', 'panel'],
 
     mounted() {
         //

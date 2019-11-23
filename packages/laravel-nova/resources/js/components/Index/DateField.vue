@@ -1,6 +1,10 @@
 <template>
-    <span v-if="field.value" class="whitespace-no-wrap">{{ formattedDate }}</span>
+    <div :class="`text-${field.textAlign}`">
+    <span v-if="field.value" class="whitespace-no-wrap">{{
+      formattedDate
+    }}</span>
     <span v-else>&mdash;</span>
+    </div>
 </template>
 
 <script>

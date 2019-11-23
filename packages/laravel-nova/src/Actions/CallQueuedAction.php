@@ -2,9 +2,9 @@
 
 namespace Laravel\Nova\Actions;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Database\Eloquent\Collection;
 
 class CallQueuedAction
 {
@@ -76,7 +76,7 @@ class CallQueuedAction
         }
 
         return method_exists($this, 'failed')
-                    ? 'failed' : null;
+            ? 'failed' : null;
     }
 
     /**

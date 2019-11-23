@@ -2,23 +2,22 @@
 
 namespace Laravel\Nova\Tests\Controller;
 
-use Laravel\Nova\Actions\Action;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\ActionEvent;
+use Laravel\Nova\Tests\Fixtures\FailingPivotAction;
+use Laravel\Nova\Tests\Fixtures\NoopAction;
+use Laravel\Nova\Tests\Fixtures\NoopActionWithPivotHandle;
+use Laravel\Nova\Tests\Fixtures\QueuedAction;
+use Laravel\Nova\Tests\Fixtures\QueuedUpdateStatusAction;
 use Laravel\Nova\Tests\Fixtures\Role;
+use Laravel\Nova\Tests\Fixtures\RoleAssignment;
+use Laravel\Nova\Tests\Fixtures\RolePolicy;
+use Laravel\Nova\Tests\Fixtures\UpdateStatusAction;
 use Laravel\Nova\Tests\Fixtures\User;
 use Laravel\Nova\Tests\IntegrationTest;
-use Laravel\Nova\Tests\Fixtures\NoopAction;
-use Laravel\Nova\Tests\Fixtures\RolePolicy;
-use Laravel\Nova\Tests\Fixtures\QueuedAction;
-use Laravel\Nova\Tests\Fixtures\RoleAssignment;
-use Illuminate\Database\Eloquent\Relations\Pivot;
-use Laravel\Nova\Tests\Fixtures\FailingPivotAction;
-use Laravel\Nova\Tests\Fixtures\UpdateStatusAction;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Laravel\Nova\Tests\Fixtures\QueuedResourceAction;
-use Laravel\Nova\Tests\Fixtures\QueuedUpdateStatusAction;
-use Laravel\Nova\Tests\Fixtures\NoopActionWithPivotHandle;
 
 class PivotActionControllerTest extends IntegrationTest
 {
@@ -42,7 +41,7 @@ class PivotActionControllerTest extends IntegrationTest
     public function test_can_retrieve_pivot_actions_for_a_resource()
     {
         $response = $this->withExceptionHandling()
-                        ->get('/nova-api/roles/actions?viaResource=users&viaResourceId=1&viaRelationship=roles');
+            ->get('/nova-api/roles/actions?viaResource=users&viaResourceId=1&viaRelationship=roles');
 
         $response->assertStatus(200);
         $this->assertInstanceOf(Action::class, $response->original['actions'][0]);
@@ -56,7 +55,7 @@ class PivotActionControllerTest extends IntegrationTest
         $_SERVER['nova.user.rolePivotName'] = 'Role Assignment';
 
         $response = $this->withExceptionHandling()
-                        ->get('/nova-api/roles/actions?viaResource=users&viaResourceId=1&viaRelationship=roles');
+            ->get('/nova-api/roles/actions?viaResource=users&viaResourceId=1&viaRelationship=roles');
 
         $response->assertStatus(200);
         $this->assertEquals('Role Assignment', $response->original['pivotActions']['name']);
@@ -71,11 +70,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(NoopAction::class), [
-                            'resources' => $role->id,
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(NoopAction::class), [
+                'resources' => $role->id,
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         $response->assertStatus(200);
 
@@ -107,11 +106,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(NoopAction::class), [
-                            'resources' => $role->id,
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(NoopAction::class), [
+                'resources' => $role->id,
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         unset($_SERVER['nova.role.authorizable']);
         unset($_SERVER['nova.role.updatable']);
@@ -138,11 +137,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(NoopAction::class), [
-                            'resources' => $role->id,
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(NoopAction::class), [
+                'resources' => $role->id,
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         unset($_SERVER['nova.role.authorizable']);
         unset($_SERVER['nova.role.updatable']);
@@ -159,11 +158,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(NoopActionWithPivotHandle::class), [
-                            'resources' => $role->id,
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(NoopActionWithPivotHandle::class), [
+                'resources' => $role->id,
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         $response->assertStatus(200);
 
@@ -180,11 +179,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(NoopActionWithPivotHandle::class), [
-                            'resources' => 'all',
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(NoopActionWithPivotHandle::class), [
+                'resources' => 'all',
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         $response->assertStatus(200);
 
@@ -203,9 +202,9 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role2);
 
         $response = $this->withExceptionHandling()
-                        ->post($this->pivotActionUriFor(UpdateStatusAction::class), [
-                            'resources' => implode(',', [$role->id, $role2->id]),
-                        ]);
+            ->post($this->pivotActionUriFor(UpdateStatusAction::class), [
+                'resources' => implode(',', [$role->id, $role2->id]),
+            ]);
 
         $response->assertStatus(200);
         $this->assertCount(2, ActionEvent::all());
@@ -223,11 +222,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(FailingPivotAction::class), [
-                            'resources' => $role->id,
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(FailingPivotAction::class), [
+                'resources' => $role->id,
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         $this->assertCount(1, ActionEvent::all());
         $this->assertEquals('failed', ActionEvent::first()->status);
@@ -244,11 +243,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(FailingPivotAction::class), [
-                            'resources' => 'all',
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(FailingPivotAction::class), [
+                'resources' => 'all',
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         $this->assertCount(1, ActionEvent::all());
         $this->assertEquals('failed', ActionEvent::first()->status);
@@ -265,11 +264,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role2);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(QueuedAction::class), [
-                            'resources' => $role2->id,
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(QueuedAction::class), [
+                'resources' => $role2->id,
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         $response->assertStatus(200);
 
@@ -296,9 +295,9 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role2);
 
         $response = $this->withExceptionHandling()
-                        ->post($this->pivotActionUriFor(QueuedUpdateStatusAction::class), [
-                            'resources' => implode(',', [$role->id, $role2->id]),
-                        ]);
+            ->post($this->pivotActionUriFor(QueuedUpdateStatusAction::class), [
+                'resources' => implode(',', [$role->id, $role2->id]),
+            ]);
 
         $response->assertStatus(200);
         $this->assertCount(2, ActionEvent::all());
@@ -327,11 +326,11 @@ class PivotActionControllerTest extends IntegrationTest
         $user->roles()->attach($role);
 
         $response = $this->withoutExceptionHandling()
-                        ->post($this->pivotActionUriFor(FailingPivotAction::class), [
-                            'resources' => $role->id,
-                            'test' => 'Taylor Otwell',
-                            'callback' => '',
-                        ]);
+            ->post($this->pivotActionUriFor(FailingPivotAction::class), [
+                'resources' => $role->id,
+                'test' => 'Taylor Otwell',
+                'callback' => '',
+            ]);
 
         $actionEvent = ActionEvent::first();
 

@@ -7,58 +7,56 @@
         data-testid="resource-table"
     >
         <thead>
-            <tr>
-                <!-- Select Checkbox -->
-                <th
-                    :class="{
-                        'w-16': shouldShowCheckboxes,
-                        'w-8': !shouldShowCheckboxes,
-                    }"
+        <tr>
+            <!-- Select Checkbox -->
+            <th
+                :class="{
+            'w-16': shouldShowCheckboxes,
+            'w-8': !shouldShowCheckboxes,
+          }"
+            >
+                &nbsp;
+            </th>
+
+            <!-- Field Names -->
+            <th v-for="field in fields" :class="`text-${field.textAlign}`">
+                <sortable-icon
+                    @sort="requestOrderByChange(field)"
+                    :resource-name="resourceName"
+                    :uri-key="field.sortableUriKey"
+                    v-if="field.sortable"
                 >
-                    &nbsp;
-                </th>
+                    {{ field.indexName }}
+                </sortable-icon>
 
-                <!-- Field Names -->
-                <th v-for="field in fields" :class="`text-${field.textAlign}`">
-                    <sortable-icon
-                        @sort="requestOrderByChange(field)"
-                        :resource-name="resourceName"
-                        :uri-key="field.attribute"
-                        v-if="field.sortable"
-                    >
-                        {{ field.indexName }}
-                    </sortable-icon>
+                <span v-else>{{ field.indexName }}</span>
+            </th>
 
-                    <span v-else> {{ field.indexName }} </span>
-                </th>
-
-                <th>
-                    &nbsp;<!--
-                        View, Edit, Delete
-                    -->
-                </th>
-            </tr>
+            <!-- Actions, View, Edit, Delete -->
+            <th>&nbsp;</th>
+        </tr>
         </thead>
         <tbody>
-            <tr
-                v-for="(resource, index) in resources"
-                :testId="`${resourceName}-items-${index}`"
-                :key="resource.id.value"
-                :delete-resource="deleteResource"
-                :restore-resource="restoreResource"
-                is="resource-table-row"
-                :resource="resource"
-                :resource-name="resourceName"
-                :relationship-type="relationshipType"
-                :via-relationship="viaRelationship"
-                :via-resource="viaResource"
-                :via-resource-id="viaResourceId"
-                :via-many-to-many="viaManyToMany"
-                :checked="selectedResources.indexOf(resource) > -1"
-                :actions-are-available="actionsAreAvailable"
-                :should-show-checkboxes="shouldShowCheckboxes"
-                :update-selection-status="updateSelectionStatus"
-            />
+        <tr
+            v-for="(resource, index) in resources"
+            @actionExecuted="$emit('actionExecuted')"
+            :testId="`${resourceName}-items-${index}`"
+            :key="resource.id.value"
+            :delete-resource="deleteResource"
+            :restore-resource="restoreResource"
+            is="resource-table-row"
+            :resource="resource"
+            :resource-name="resourceName"
+            :relationship-type="relationshipType"
+            :via-relationship="viaRelationship"
+            :via-resource="viaResource"
+            :via-resource-id="viaResourceId"
+            :via-many-to-many="viaManyToMany"
+            :checked="selectedResources.indexOf(resource) > -1"
+            :actions-are-available="actionsAreAvailable"
+            :should-show-checkboxes="shouldShowCheckboxes"
+            :update-selection-status="updateSelectionStatus"
+        />
         </tbody>
     </table>
 </template>
@@ -157,7 +155,8 @@ export default {
          */
         viaManyToMany() {
             return (
-                this.relationshipType == 'belongsToMany' || this.relationshipType == 'morphToMany'
+                this.relationshipType == 'belongsToMany' ||
+                this.relationshipType == 'morphToMany'
             )
         },
 
@@ -165,7 +164,9 @@ export default {
          * Determine if the current resource listing is via a has-one relationship.
          */
         viaHasOne() {
-            return this.relationshipType == 'hasOne' || this.relationshipType == 'morphOne'
+            return (
+                this.relationshipType == 'hasOne' || this.relationshipType == 'morphOne'
+            )
         },
     },
 }

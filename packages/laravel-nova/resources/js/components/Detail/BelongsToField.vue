@@ -4,12 +4,12 @@
             <router-link
                 v-if="field.viewable && field.value"
                 :to="{
-                    name: 'detail',
-                    params: {
-                        resourceName: field.resourceName,
-                        resourceId: field.belongsToId,
-                    },
-                }"
+          name: 'detail',
+          params: {
+            resourceName: field.resourceName,
+            resourceId: field.belongsToId,
+          },
+        }"
                 class="no-underline font-bold dim text-primary"
             >
                 {{ field.value }}

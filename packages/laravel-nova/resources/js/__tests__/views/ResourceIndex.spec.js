@@ -46,7 +46,7 @@ describe('Index.vue', () => {
     })
 
     it('should show its cards', () => {
-        const $route = { params: { resourceName: 'posts' } }
+        const $route = {params: {resourceName: 'posts'}}
         const wrapper = shallowMount(Index, {
             stubs: ['loading-view', 'cards'],
             mocks: {

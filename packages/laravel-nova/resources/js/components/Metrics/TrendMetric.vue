@@ -2,12 +2,15 @@
     <BaseTrendMetric
         @selected="handleRangeSelected"
         :title="card.name"
+        :help-text="card.helpText"
+        :help-width="card.helpWidth"
         :value="value"
         :chart-data="data"
         :ranges="card.ranges"
         :format="format"
         :prefix="prefix"
         :suffix="suffix"
+        :suffix-inflection="suffixInflection"
         :selected-range-key="selectedRangeKey"
         :loading="loading"
     />
@@ -32,10 +35,12 @@ export default {
             type: Object,
             required: true,
         },
+
         resourceName: {
             type: String,
             default: '',
         },
+
         resourceId: {
             type: [Number, String],
             default: '',
@@ -54,12 +59,23 @@ export default {
         format: '(0[.]00a)',
         prefix: '',
         suffix: '',
+        suffixInflection: true,
         selectedRangeKey: null,
     }),
+
+    watch: {
+        resourceId() {
+            this.fetch()
+        },
+    },
 
     created() {
         if (this.hasRanges) {
             this.selectedRangeKey = this.card.ranges[0].value
+        }
+
+        if (this.card.refreshWhenActionRuns) {
+            Nova.$on('action-executed', () => this.fetch())
         }
     },
 
@@ -78,10 +94,18 @@ export default {
 
             Minimum(Nova.request().get(this.metricEndpoint, this.metricPayload)).then(
                 ({
-                    data: {
-                        value: { labels, trend, value, prefix, suffix, format },
-                    },
-                }) => {
+                     data: {
+                         value: {
+                             labels,
+                             trend,
+                             value,
+                             prefix,
+                             suffix,
+                             suffixInflection,
+                             format,
+                         },
+                     },
+                 }) => {
                     this.value = value
                     this.labels = Object.keys(trend)
                     this.data = {
@@ -98,6 +122,7 @@ export default {
                     this.format = format || this.format
                     this.prefix = prefix || this.prefix
                     this.suffix = suffix || this.suffix
+                    this.suffixInflection = suffixInflection
                     this.loading = false
                 }
             )
@@ -127,9 +152,7 @@ export default {
         metricEndpoint() {
             const lens = this.lens !== '' ? `/lens/${this.lens}` : ''
             if (this.resourceName && this.resourceId) {
-                return `/nova-api/${this.resourceName}${lens}/${this.resourceId}/metrics/${
-                    this.card.uriKey
-                }`
+                return `/nova-api/${this.resourceName}${lens}/${this.resourceId}/metrics/${this.card.uriKey}`
             } else if (this.resourceName) {
                 return `/nova-api/${this.resourceName}${lens}/metrics/${this.card.uriKey}`
             } else {

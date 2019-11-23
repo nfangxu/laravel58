@@ -6,7 +6,7 @@
                 class="w-full form-control form-input form-input-bordered"
                 :name="field.name"
                 :value="value"
-                dateFormat="Y-m-d"
+                :dateFormat="pickerFormat"
                 :placeholder="placeholder"
                 :enable-time="false"
                 :enable-seconds="false"
@@ -20,7 +20,12 @@
 </template>
 
 <script>
-import { Errors, FormField, HandlesValidationErrors, InteractsWithDates } from 'laravel-nova'
+    import {
+        Errors,
+        FormField,
+        HandlesValidationErrors,
+        InteractsWithDates,
+    } from 'laravel-nova'
 
 export default {
     mixins: [HandlesValidationErrors, FormField, InteractsWithDates],
@@ -31,7 +36,15 @@ export default {
         },
 
         placeholder() {
-            return this.field.placeholder || moment().format('YYYY-MM-DD')
+            return this.field.placeholder || moment().format(this.format)
+        },
+
+        format() {
+            return this.field.format || 'YYYY-MM-DD'
+        },
+
+        pickerFormat() {
+            return this.field.pickerFormat || 'Y-m-d'
         },
     },
 }

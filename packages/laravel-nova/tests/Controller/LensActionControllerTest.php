@@ -2,9 +2,9 @@
 
 namespace Laravel\Nova\Tests\Controller;
 
+use Laravel\Nova\Tests\Fixtures\NoopAction;
 use Laravel\Nova\Tests\Fixtures\User;
 use Laravel\Nova\Tests\IntegrationTest;
-use Laravel\Nova\Tests\Fixtures\NoopAction;
 
 class LensActionControllerTest extends IntegrationTest
 {
@@ -31,10 +31,10 @@ class LensActionControllerTest extends IntegrationTest
         $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
-                        ->post('/nova-api/users/lens/user-lens/action?action='.(new NoopAction)->uriKey(), [
-                            'resources' => implode(',', [$user->id, $user2->id]),
-                            'test' => 'Taylor Otwell',
-                        ]);
+            ->post('/nova-api/users/lens/user-lens/action?action='.(new NoopAction)->uriKey(), [
+                'resources' => implode(',', [$user->id, $user2->id]),
+                'test' => 'Taylor Otwell',
+            ]);
 
         $response->assertStatus(200);
         $this->assertEquals(['message' => 'Hello World'], $response->original);
@@ -46,10 +46,10 @@ class LensActionControllerTest extends IntegrationTest
         $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
-                        ->post('/nova-api/users/lens/user-lens/action?action='.(new NoopAction)->uriKey(), [
-                            'resources' => 'all',
-                            'test' => 'Taylor Otwell',
-                        ]);
+            ->post('/nova-api/users/lens/user-lens/action?action='.(new NoopAction)->uriKey(), [
+                'resources' => 'all',
+                'test' => 'Taylor Otwell',
+            ]);
 
         $response->assertStatus(200);
         $this->assertEquals('Taylor Otwell', NoopAction::$appliedFields[0]->test);
@@ -63,8 +63,8 @@ class LensActionControllerTest extends IntegrationTest
         $user2 = factory(User::class)->create();
 
         $response = $this->withoutExceptionHandling()
-                        ->post('/nova-api/users/lens/paginating-user-lens/action?action='.(new NoopAction)->uriKey(), [
-                            'resources' => 'all',
-                        ]);
+            ->post('/nova-api/users/lens/paginating-user-lens/action?action='.(new NoopAction)->uriKey(), [
+                'resources' => 'all',
+            ]);
     }
 }

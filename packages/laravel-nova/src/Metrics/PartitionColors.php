@@ -22,6 +22,7 @@ class PartitionColors
      * Create a new instance.
      *
      * @param array $colors
+     * @return void
      */
     public function __construct($colors = [])
     {

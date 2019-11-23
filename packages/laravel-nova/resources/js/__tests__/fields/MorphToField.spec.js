@@ -162,9 +162,13 @@ describe('MorphToField', () => {
 
         await flushPromises()
 
-        expect(wrapper.vm.availableResources).toEqual([{ value: 1 }, { value: 2 }, { value: 3 }])
+        expect(wrapper.vm.availableResources).toEqual([
+            {value: 1},
+            {value: 2},
+            {value: 3},
+        ])
         expect(wrapper.vm.softDeletes).toBe(true)
-        expect(wrapper.vm.selectedResource).toEqual({ value: 1 })
+        expect(wrapper.vm.selectedResource).toEqual({value: 1})
         expect(wrapper.vm.selectedResourceId).toBe(1)
     })
 
@@ -218,9 +222,9 @@ describe('MorphToField', () => {
 
         await flushPromises()
 
-        expect(wrapper.vm.availableResources).toEqual([{ value: 1 }])
+        expect(wrapper.vm.availableResources).toEqual([{value: 1}])
         expect(wrapper.vm.softDeletes).toBe(true)
-        expect(wrapper.vm.selectedResource).toEqual({ value: 1 })
+        expect(wrapper.vm.selectedResource).toEqual({value: 1})
         expect(wrapper.vm.selectedResourceId).toBe(1)
     })
 
@@ -274,9 +278,13 @@ describe('MorphToField', () => {
 
         await flushPromises()
 
-        expect(wrapper.vm.availableResources).toEqual([{ value: 1 }, { value: 2 }, { value: 3 }])
+        expect(wrapper.vm.availableResources).toEqual([
+            {value: 1},
+            {value: 2},
+            {value: 3},
+        ])
         expect(wrapper.vm.softDeletes).toBe(true)
-        expect(wrapper.vm.selectedResource).toEqual({ value: 1 })
+        expect(wrapper.vm.selectedResource).toEqual({value: 1})
         expect(wrapper.vm.selectedResourceId).toBe(1)
     })
 
@@ -330,9 +338,9 @@ describe('MorphToField', () => {
 
         await flushPromises()
 
-        expect(wrapper.vm.availableResources).toEqual([{ value: 1 }])
+        expect(wrapper.vm.availableResources).toEqual([{value: 1}])
         expect(wrapper.vm.softDeletes).toBe(true)
-        expect(wrapper.vm.selectedResource).toEqual({ value: 1 })
+        expect(wrapper.vm.selectedResource).toEqual({value: 1})
         expect(wrapper.vm.selectedResourceId).toBe(1)
     })
 
@@ -540,7 +548,7 @@ describe('MorphToField', () => {
 
         expect(wrapper.vm.softDeletes).toBe(true)
 
-        wrapper.setData({ resourceType: 'videos' })
+        wrapper.setData({resourceType: 'videos'})
         wrapper.vm.determineIfSoftDeletes()
 
         await flushPromises()

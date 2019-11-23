@@ -50,7 +50,7 @@ export default {
         },
     },
 
-    data: () => ({ flatpickr: null }),
+    data: () => ({flatpickr: null}),
 
     mounted() {
         this.$nextTick(() => {
@@ -63,7 +63,7 @@ export default {
                 allowInput: true,
                 // static: true,
                 time_24hr: !this.twelveHourTime,
-                locale: { firstDayOfWeek: this.firstDayOfWeek },
+                locale: {firstDayOfWeek: this.firstDayOfWeek},
             })
         })
     },
@@ -72,6 +72,10 @@ export default {
         onChange(event) {
             this.$emit('change', this.$refs.datePicker.value)
         },
+    },
+
+    beforeDestroy() {
+        this.flatpickr.destroy()
     },
 }
 </script>

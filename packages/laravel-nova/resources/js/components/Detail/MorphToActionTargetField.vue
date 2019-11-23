@@ -3,12 +3,12 @@
         <template slot="value">
             <router-link
                 :to="{
-                    name: 'detail',
-                    params: {
-                        resourceName: field.resourceName,
-                        resourceId: field.morphToId,
-                    },
-                }"
+          name: 'detail',
+          params: {
+            resourceName: field.resourceName,
+            resourceId: field.morphToId,
+          },
+        }"
                 class="no-underline font-bold dim text-primary"
             >
                 {{ field.name }}: {{ field.value }} ({{ field.resourceLabel }})

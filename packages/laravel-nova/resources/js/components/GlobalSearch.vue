@@ -3,7 +3,7 @@
         <div class="relative">
             <!-- Search -->
             <div class="relative">
-                <icon type="search" class="absolute search-icon-center ml-3 text-70" />
+                <icon type="search" class="absolute search-icon-center ml-3 text-80"/>
 
                 <input
                     dusk="global-search"
@@ -18,7 +18,7 @@
                     v-model="searchTerm"
                     type="search"
                     :placeholder="__('Press / to search')"
-                    class="pl-search form-control form-input form-input-bordered w-full"
+                    class="pl-search w-full form-global-search"
                 />
             </div>
 
@@ -27,7 +27,7 @@
                 v-if="loading"
                 class="bg-white py-3 overflow-hidden absolute rounded-lg shadow-lg w-full mt-2 max-h-search overflow-y-auto"
             >
-                <loader class="text-60" width="40" />
+                <loader class="text-60" width="40"/>
             </div>
 
             <!-- No Results Found -->
@@ -62,14 +62,18 @@
                                 @click.prevent="navigate(item.index)"
                                 class="cursor-pointer flex items-center hover:bg-20 block py-2 px-3 no-underline font-normal"
                                 :class="{
-                                    'bg-white': highlightedResultIndex != item.index,
-                                    'bg-20': highlightedResultIndex == item.index,
-                                }"
+                  'bg-white': highlightedResultIndex != item.index,
+                  'bg-20': highlightedResultIndex == item.index,
+                }"
                             >
                                 <img
                                     v-if="item.avatar"
                                     :src="item.avatar"
-                                    class="h-8 w-8 rounded-full mr-3"
+                                    class="h-8 w-8 mr-3"
+                                    :class="{
+                    'rounded-full': item.rounded,
+                    rounded: !item.rounded,
+                  }"
                                 />
 
                                 <div>
@@ -103,7 +107,7 @@ export default {
     }),
 
     watch: {
-        $route: function() {
+        $route: function () {
             this.closeSearch()
         },
     },
@@ -173,9 +177,9 @@ export default {
 
             if (search !== '') {
                 try {
-                    const { data: results } = await Minimum(
+                    const {data: results} = await Minimum(
                         Nova.request().get('/nova-api/search', {
-                            params: { search },
+                            params: {search},
                         })
                     )
 
@@ -222,7 +226,9 @@ export default {
                 if (selection) {
                     if (
                         selection[0].offsetTop >
-                        container.scrollTop + container.clientHeight - selection[0].clientHeight
+                        container.scrollTop +
+                        container.clientHeight -
+                        selection[0].clientHeight
                     ) {
                         container.scrollTop =
                             selection[0].offsetTop +
@@ -270,7 +276,10 @@ export default {
 
         shouldShowNoResults() {
             return (
-                this.currentlySearching && !this.loading && !this.hasResults && this.hasSearchTerm
+                this.currentlySearching &&
+                !this.loading &&
+                !this.hasResults &&
+                this.hasSearchTerm
             )
         },
 
@@ -280,7 +289,7 @@ export default {
 
         indexedResults() {
             return _.map(this.results, (item, index) => {
-                return { index, ...item }
+                return {index, ...item}
             })
         },
 

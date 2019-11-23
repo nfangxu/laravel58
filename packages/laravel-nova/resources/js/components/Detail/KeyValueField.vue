@@ -1,10 +1,17 @@
 <template>
     <panel-item :field="field">
         <template slot="value">
-            <KeyValueTable :edit-mode="false" class="overflow-hidden">
-                <KeyValueHeader :key-label="field.keyLabel" :value-label="field.valueLabel" />
+            <KeyValueTable
+                v-if="theData.length > 0"
+                :edit-mode="false"
+                class="overflow-hidden"
+            >
+                <KeyValueHeader
+                    :key-label="field.keyLabel"
+                    :value-label="field.valueLabel"
+                />
 
-                <div class="bg-white overflow-hidden">
+                <div class="bg-white overflow-hidden key-value-items">
                     <KeyValueItem
                         v-for="item in theData"
                         :item="item"
@@ -25,12 +32,15 @@ import KeyValueTable from '@/components/Form/KeyValueField/KeyValueTable'
 export default {
     props: ['resource', 'resourceName', 'resourceId', 'field'],
 
-    components: { KeyValueTable, KeyValueHeader, KeyValueItem },
+    components: {KeyValueTable, KeyValueHeader, KeyValueItem},
 
-    data: () => ({ theData: [] }),
+    data: () => ({theData: []}),
 
     created() {
-        this.theData = _.map(this.field.value || {}, (value, key) => ({ key, value }))
+        this.theData = _.map(this.field.value || {}, (value, key) => ({
+            key,
+            value,
+        }))
     },
 }
 </script>

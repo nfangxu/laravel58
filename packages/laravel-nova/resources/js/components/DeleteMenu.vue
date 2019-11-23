@@ -1,8 +1,8 @@
 <template>
     <div>
         <dropdown class="ml-3 bg-30 hover:bg-40 rounded">
-            <dropdown-trigger slot-scope="{ toggle }" :handle-click="toggle" class="px-3">
-                <icon type="delete" class="text-80" />
+            <dropdown-trigger class="px-3">
+                <icon type="delete" class="text-80"/>
             </dropdown-trigger>
 
             <dropdown-menu slot="menu" direction="rtl" width="250">
@@ -14,9 +14,8 @@
                         @click="confirmDeleteSelectedResources"
                         v-if="authorizedToDeleteSelectedResources || allMatchingSelected"
                     >
-                        {{ __(viaManyToMany ? 'Detach Selected' : 'Delete Selected') }} ({{
-                            selectedResourcesCount
-                        }})
+                        {{ __(viaManyToMany ? 'Detach Selected' : 'Delete Selected') }}
+                        ({{ selectedResourcesCount }})
                     </button>
 
                     <!-- Restore Resources -->
@@ -25,11 +24,11 @@
                         class="text-left w-full leading-normal dim text-90 my-2"
                         @click="confirmRestore"
                         v-if="
-                            softDeletes &&
-                                !viaManyToMany &&
-                                (softDeletedResourcesSelected || allMatchingSelected) &&
-                                (authorizedToRestoreSelectedResources || allMatchingSelected)
-                        "
+              softDeletes &&
+                !viaManyToMany &&
+                (softDeletedResourcesSelected || allMatchingSelected) &&
+                (authorizedToRestoreSelectedResources || allMatchingSelected)
+            "
                     >
                         {{ __('Restore Selected') }} ({{ selectedResourcesCount }})
                     </button>
@@ -40,10 +39,11 @@
                         class="text-left w-full leading-normal dim text-90 my-2"
                         @click="confirmForceDeleteSelectedResources"
                         v-if="
-                            softDeletes &&
-                                !viaManyToMany &&
-                                (authorizedToForceDeleteSelectedResources || allMatchingSelected)
-                        "
+              softDeletes &&
+                !viaManyToMany &&
+                (authorizedToForceDeleteSelectedResources ||
+                  allMatchingSelected)
+            "
                     >
                         {{ __('Force Delete Selected') }} ({{ selectedResourcesCount }})
                     </button>
@@ -51,41 +51,47 @@
             </dropdown-menu>
         </dropdown>
 
-        <portal to="modals">
-            <transition name="fade">
-                <delete-resource-modal
-                    v-if="deleteSelectedModalOpen"
-                    @confirm="deleteSelectedResources"
-                    @close="closeDeleteSelectedModal"
-                    :mode="viaManyToMany ? 'detach' : 'delete'"
-                />
-            </transition>
+        <portal
+            to="modals"
+            v-if="
+        deleteSelectedModalOpen ||
+          forceDeleteSelectedModalOpen ||
+          restoreModalOpen
+      "
+        >
+            <delete-resource-modal
+                v-if="deleteSelectedModalOpen"
+                @confirm="deleteSelectedResources"
+                @close="closeDeleteSelectedModal"
+                :mode="viaManyToMany ? 'detach' : 'delete'"
+            />
 
-            <transition name="fade">
-                <delete-resource-modal
-                    v-if="forceDeleteSelectedModalOpen"
-                    @confirm="forceDeleteSelectedResources"
-                    @close="closeForceDeleteSelectedModal"
-                    mode="delete"
-                >
-                    <div slot-scope="{ uppercaseMode, mode }" class="p-8">
-                        <heading :level="2" class="mb-6">{{ __('Force Delete Resource') }}</heading>
-                        <p class="text-80 leading-normal">
-                            {{
-                                __('Are you sure you want to force delete the selected resources?')
-                            }}
-                        </p>
-                    </div>
-                </delete-resource-modal>
-            </transition>
+            <delete-resource-modal
+                v-if="forceDeleteSelectedModalOpen"
+                @confirm="forceDeleteSelectedResources"
+                @close="closeForceDeleteSelectedModal"
+                mode="delete"
+            >
+                <div slot-scope="{ uppercaseMode, mode }" class="p-8">
+                    <heading :level="2" class="mb-6">{{
+                        __('Force Delete Resource')
+                        }}
+                    </heading>
+                    <p class="text-80 leading-normal">
+                        {{
+                        __(
+                        'Are you sure you want to force delete the selected resources?'
+                        )
+                        }}
+                    </p>
+                </div>
+            </delete-resource-modal>
 
-            <transition name="fade">
-                <restore-resource-modal
-                    v-if="restoreModalOpen"
-                    @confirm="restoreSelectedResources"
-                    @close="closeRestoreModal"
-                />
-            </transition>
+            <restore-resource-modal
+                v-if="restoreModalOpen"
+                @confirm="restoreSelectedResources"
+                @close="closeRestoreModal"
+            />
         </portal>
     </div>
 </template>
@@ -157,21 +163,29 @@ export default {
          * Delete the selected resources.
          */
         deleteSelectedResources() {
-            this.$emit(this.allMatchingSelected ? 'deleteAllMatching' : 'deleteSelected')
+            this.$emit(
+                this.allMatchingSelected ? 'deleteAllMatching' : 'deleteSelected'
+            )
         },
 
         /**
          * Force delete the selected resources.
          */
         forceDeleteSelectedResources() {
-            this.$emit(this.allMatchingSelected ? 'forceDeleteAllMatching' : 'forceDeleteSelected')
+            this.$emit(
+                this.allMatchingSelected
+                    ? 'forceDeleteAllMatching'
+                    : 'forceDeleteSelected'
+            )
         },
 
         /**
          * Restore the selected resources.
          */
         restoreSelectedResources() {
-            this.$emit(this.allMatchingSelected ? 'restoreAllMatching' : 'restoreSelected')
+            this.$emit(
+                this.allMatchingSelected ? 'restoreAllMatching' : 'restoreSelected'
+            )
         },
 
         /**
@@ -202,7 +216,9 @@ export default {
          * Determine if any soft deleted resources are selected.
          */
         softDeletedResourcesSelected() {
-            return Boolean(_.find(this.selectedResources, resource => resource.softDeleted))
+            return Boolean(
+                _.find(this.selectedResources, resource => resource.softDeleted)
+            )
         },
     },
 }

@@ -5,10 +5,10 @@
             class="rounded-lg flex items-center justify-center absolute pin z-50"
             :class="modeClass"
         >
-            <loader class="text-60" />
+            <loader class="text-60"/>
         </div>
 
-        <slot />
+        <slot/>
     </card>
 </template>
 
@@ -23,7 +23,7 @@ export default {
         mode: {
             type: String,
             default: 'light',
-            validator: function(value) {
+            validator: function (value) {
                 return ['light', 'dark'].indexOf(value) !== -1
             },
         },

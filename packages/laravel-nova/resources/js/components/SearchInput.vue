@@ -13,11 +13,11 @@
                 @keydown.down.prevent="open"
                 @keydown.up.prevent="open"
                 :class="{
-                    focus: show,
-                    'border-danger': error,
-                    'form-select': shouldShowDropdownArrow,
-                    disabled,
-                }"
+          focus: show,
+          'border-danger': error,
+          'form-select': shouldShowDropdownArrow,
+          disabled,
+        }"
                 class="flex items-center form-control form-input form-input-bordered pr-6"
                 :tabindex="show ? -1 : 0"
             >
@@ -88,12 +88,16 @@
                     @click="choose(option)"
                     class="px-4 py-2 cursor-pointer"
                     :class="{
-                        [`search-input-item-${index}`]: true,
-                        'hover:bg-30': index !== selected,
-                        'bg-primary text-white': index === selected,
-                    }"
+            [`search-input-item-${index}`]: true,
+            'hover:bg-30': index !== selected,
+            'bg-primary text-white': index === selected,
+          }"
                 >
-                    <slot name="option" :option="option" :selected="index === selected"></slot>
+                    <slot
+                        name="option"
+                        :option="option"
+                        :selected="index === selected"
+                    ></slot>
                 </div>
             </div>
         </div>
@@ -111,7 +115,7 @@ export default {
     inheritAttrs: false,
     props: {
         dataTestid: {},
-        disabled: { default: false },
+        disabled: {default: false},
         value: {},
         data: {},
         trackBy: {},
@@ -165,7 +169,9 @@ export default {
                         },
                         modifiers: {
                             preventOverflow: {
-                                boundariesElement: this.boundary ? this.boundary : 'scrollParent',
+                                boundariesElement: this.boundary
+                                    ? this.boundary
+                                    : 'scrollParent',
                             },
                         },
                     })
@@ -221,8 +227,8 @@ export default {
                     if (
                         this.$refs.selected[0].offsetTop >
                         this.$refs.container.scrollTop +
-                            this.$refs.container.clientHeight -
-                            this.$refs.selected[0].clientHeight
+                        this.$refs.container.clientHeight -
+                        this.$refs.selected[0].clientHeight
                     ) {
                         this.$refs.container.scrollTop =
                             this.$refs.selected[0].offsetTop +
@@ -230,7 +236,9 @@ export default {
                             this.$refs.container.clientHeight
                     }
 
-                    if (this.$refs.selected[0].offsetTop < this.$refs.container.scrollTop) {
+                    if (
+                        this.$refs.selected[0].offsetTop < this.$refs.container.scrollTop
+                    ) {
                         this.$refs.container.scrollTop = this.$refs.selected[0].offsetTop
                     }
                 }
@@ -246,7 +254,10 @@ export default {
         },
 
         choose(option) {
-            this.selected = _.findIndex(this.data, [this.trackBy, _.get(option, this.trackBy)])
+            this.selected = _.findIndex(this.data, [
+                this.trackBy,
+                _.get(option, this.trackBy),
+            ])
             this.$emit('selected', option)
             this.$refs.input.focus()
             Vue.nextTick(() => this.close())

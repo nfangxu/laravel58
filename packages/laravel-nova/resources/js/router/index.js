@@ -35,7 +35,9 @@ function createRouter({ base }) {
  */
 async function beforeEach(to, from, next) {
     // Get the matched components and resolve them.
-    const components = await resolveComponents(router.getMatchedComponents({ ...to }))
+    const components = await resolveComponents(
+        router.getMatchedComponents({...to})
+    )
 
     if (components.length === 0) {
         return next()
@@ -91,14 +93,14 @@ function scrollBehavior(to, from, savedPosition) {
     }
 
     if (to.hash) {
-        return { selector: to.hash }
+        return {selector: to.hash}
     }
 
-    const [component] = router.getMatchedComponents({ ...to }).slice(-1)
+    const [component] = router.getMatchedComponents({...to}).slice(-1)
 
     if (component && component.scrollToTop === false) {
         return {}
     }
 
-    return { x: 0, y: 0 }
+    return {x: 0, y: 0}
 }

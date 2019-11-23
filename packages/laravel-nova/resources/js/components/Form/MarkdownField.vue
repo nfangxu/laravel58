@@ -4,11 +4,11 @@
             <div
                 class="bg-white rounded-lg overflow-hidden"
                 :class="{
-                    'markdown-fullscreen fixed pin z-50': isFullScreen,
-                    'form-input form-input-bordered px-0': !isFullScreen,
-                    'form-control-focus': isFocused,
-                    'border-danger': errors.has('body'),
-                }"
+          'markdown-fullscreen fixed pin z-50': isFullScreen,
+          'form-input form-input-bordered px-0': !isFullScreen,
+          'form-control-focus': isFocused,
+          'border-danger': errors.has('body'),
+        }"
             >
                 <header
                     class="flex items-center content-center justify-between border-b border-60"
@@ -16,14 +16,18 @@
                 >
                     <ul class="w-full flex items-center content-center list-reset">
                         <button
-                            :class="{ 'text-primary font-bold': this.mode == 'write' }"
+                            :class="{
+                'text-primary font-bold': this.mode == 'write',
+              }"
                             @click.prevent="write"
                             class="ml-1 text-90 px-3 py-2"
                         >
                             {{ __('Write') }}
                         </button>
                         <button
-                            :class="{ 'text-primary font-bold': this.mode == 'preview' }"
+                            :class="{
+                'text-primary font-bold': this.mode == 'preview',
+              }"
                             @click.prevent="preview"
                             class="text-90 px-3 py-2"
                         >
@@ -51,7 +55,7 @@
                     class="flex markdown-content relative p-4"
                     :class="{ 'readonly bg-30': isReadonly }"
                 >
-                    <textarea ref="theTextarea" :class="{ 'bg-30': isReadonly }" />
+                    <textarea ref="theTextarea" :class="{ 'bg-30': isReadonly }"/>
                 </div>
 
                 <div
@@ -120,15 +124,30 @@ export default {
         codemirror: null,
         mode: 'write',
         tools: [
-            { name: 'bold', action: 'bold', className: 'fa fa-bold', icon: 'editor-bold' },
+            {
+                name: 'bold',
+                action: 'bold',
+                className: 'fa fa-bold',
+                icon: 'editor-bold',
+            },
             {
                 name: 'italicize',
                 action: 'italicize',
                 className: 'fa fa-italic',
                 icon: 'editor-italic',
             },
-            { name: 'link', action: 'link', className: 'fa fa-link', icon: 'editor-link' },
-            { name: 'image', action: 'image', className: 'fa fa-image', icon: 'editor-image' },
+            {
+                name: 'link',
+                action: 'link',
+                className: 'fa fa-link',
+                icon: 'editor-link',
+            },
+            {
+                name: 'image',
+                action: 'image',
+                className: 'fa fa-image',
+                icon: 'editor-image',
+            },
             {
                 name: 'fullScreen',
                 action: 'toggleFullScreen',
@@ -151,15 +170,19 @@ export default {
                     return tool.action
                 }),
             },
-            ...{ readOnly: this.isReadonly },
+            ...{readOnly: this.isReadonly},
         })
 
         _.each(keyMaps, (action, map) => {
             const realMap = map.replace(
                 'Cmd-',
-                CodeMirror.keyMap['default'] == CodeMirror.keyMap.macDefault ? 'Cmd-' : 'Ctrl-'
+                CodeMirror.keyMap['default'] == CodeMirror.keyMap.macDefault
+                    ? 'Cmd-'
+                    : 'Ctrl-'
             )
-            this.codemirror.options.extraKeys[realMap] = actions[keyMaps[map]].bind(this)
+            this.codemirror.options.extraKeys[realMap] = actions[keyMaps[map]].bind(
+                this
+            )
         })
 
         this.doc.on('change', (cm, changeObj) => {
@@ -173,6 +196,11 @@ export default {
             this.doc.setValue(this.field.value)
         }
 
+        Nova.$on(this.field.attribute + '-value', value => {
+            this.doc.setValue(value)
+            this.$nextTick(() => this.codemirror.refresh())
+        })
+
         this.$nextTick(() => this.codemirror.refresh())
     },
 
@@ -183,7 +211,9 @@ export default {
 
         write() {
             this.mode = 'write'
-            this.codemirror.refresh()
+            this.$nextTick(() => {
+                this.codemirror.refresh()
+            })
         },
 
         preview() {
@@ -220,10 +250,10 @@ export default {
                     const pos = [selection.head.line, selection.anchor.line].sort()
 
                     for (let i = pos[0]; i <= pos[1]; i++) {
-                        this.doc.replaceRange(insertion, { line: i, ch: 0 })
+                        this.doc.replaceRange(insertion, {line: i, ch: 0})
                     }
 
-                    this.doc.setCursor({ line: pos[0], ch: cursorOffset || 0 })
+                    this.doc.setCursor({line: pos[0], ch: cursorOffset || 0})
                 })
             } else {
                 this.doc.replaceRange(insertion, {

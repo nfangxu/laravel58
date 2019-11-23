@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import {escapeUnicode} from '@/util/escapeUnicode'
 
 export default {
     namespaced: true,
@@ -39,7 +40,8 @@ export default {
         /**
          * Return the current filters encoded to a string.
          */
-        currentEncodedFilters: (state, getters) => btoa(JSON.stringify(getters.currentFilters)),
+        currentEncodedFilters: (state, getters) =>
+            btoa(escapeUnicode(JSON.stringify(getters.currentFilters))),
 
         /**
          * Determine whether any filters are applied
@@ -54,9 +56,13 @@ export default {
                 state.filters,
                 (result, f) => {
                     const originalFilter = getters.getOriginalFilter(f.class)
-                    const originalFilterCloneValue = JSON.stringify(originalFilter.currentValue)
+                    const originalFilterCloneValue = JSON.stringify(
+                        originalFilter.currentValue
+                    )
                     const currentFilterCloneValue = JSON.stringify(f.currentValue)
-                    return currentFilterCloneValue == originalFilterCloneValue ? result : result + 1
+                    return currentFilterCloneValue == originalFilterCloneValue
+                        ? result
+                        : result + 1
                 },
                 0
             )
@@ -94,17 +100,18 @@ export default {
             return _.find(filter.currentValue, (value, key) => key == optionKey)
         },
     },
+
     actions: {
         /**
          * Fetch the current filters for the given resource name.
          */
-        async fetchFilters({ commit, state }, options) {
-            let { resourceName, lens = false } = options
+        async fetchFilters({commit, state}, options) {
+            let {resourceName, lens = false} = options
 
-            const { data } = lens
+            const {data} = lens
                 ? await Nova.request().get(
-                      '/nova-api/' + resourceName + '/lens/' + lens + '/filters'
-                  )
+                    '/nova-api/' + resourceName + '/lens/' + lens + '/filters'
+                )
                 : await Nova.request().get('/nova-api/' + resourceName + '/filters')
 
             commit('storeFilters', data)
@@ -113,7 +120,7 @@ export default {
         /**
          * Reset the default filter state to the original filter settings.
          */
-        async resetFilterState({ commit, getters }) {
+        async resetFilterState({commit, getters}) {
             _.each(getters.originalFilters, filter => {
                 commit('updateFilterState', {
                     filterClass: filter.class,
@@ -125,18 +132,24 @@ export default {
         /**
          * Initialize the current filter values from the decoded query string.
          */
-        async initializeCurrentFilterValuesFromQueryString({ commit, getters }, encodedFilters) {
+        async initializeCurrentFilterValuesFromQueryString(
+            {commit, getters},
+            encodedFilters
+        ) {
             if (encodedFilters) {
                 const initialFilters = JSON.parse(atob(encodedFilters))
                 _.each(initialFilters, f => {
-                    commit('updateFilterState', { filterClass: f.class, value: f.value })
+                    commit('updateFilterState', {
+                        filterClass: f.class,
+                        value: f.value,
+                    })
                 })
             }
         },
     },
 
     mutations: {
-        updateFilterState(state, { filterClass, value }) {
+        updateFilterState(state, {filterClass, value}) {
             const filter = _(state.filters).find(f => f.class == filterClass)
 
             filter.currentValue = value

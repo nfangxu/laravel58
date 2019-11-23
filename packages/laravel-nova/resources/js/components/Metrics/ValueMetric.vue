@@ -2,23 +2,29 @@
     <BaseValueMetric
         @selected="handleRangeSelected"
         :title="card.name"
+        :help-text="card.helpText"
+        :help-width="card.helpWidth"
         :previous="previous"
         :value="value"
         :ranges="card.ranges"
         :format="format"
         :prefix="prefix"
         :suffix="suffix"
+        :suffix-inflection="suffixInflection"
         :selected-range-key="selectedRangeKey"
         :loading="loading"
+        :zeroed-data="zeroResult"
     />
 </template>
 
 <script>
-import { Minimum } from 'laravel-nova'
+    import {InteractsWithDates, Minimum} from 'laravel-nova'
 import BaseValueMetric from './Base/ValueMetric'
 
 export default {
     name: 'ValueMetric',
+
+    mixins: [InteractsWithDates],
 
     components: {
         BaseValueMetric,
@@ -29,10 +35,12 @@ export default {
             type: Object,
             required: true,
         },
+
         resourceName: {
             type: String,
             default: '',
         },
+
         resourceId: {
             type: [Number, String],
             default: '',
@@ -51,12 +59,24 @@ export default {
         previous: 0,
         prefix: '',
         suffix: '',
+        suffixInflection: true,
         selectedRangeKey: null,
+        zeroResult: false,
     }),
+
+    watch: {
+        resourceId() {
+            this.fetch()
+        },
+    },
 
     created() {
         if (this.hasRanges) {
             this.selectedRangeKey = this.card.ranges[0].value
+        }
+
+        if (this.card.refreshWhenActionRuns) {
+            Nova.$on('action-executed', () => this.fetch())
         }
     },
 
@@ -73,16 +93,26 @@ export default {
         fetch() {
             this.loading = true
 
-            Minimum(Nova.request().get(this.metricEndpoint, this.rangePayload)).then(
+            Minimum(Nova.request().get(this.metricEndpoint, this.metricPayload)).then(
                 ({
-                    data: {
-                        value: { value, previous, prefix, suffix, format },
-                    },
-                }) => {
+                     data: {
+                         value: {
+                             value,
+                             previous,
+                             prefix,
+                             suffix,
+                             suffixInflection,
+                             format,
+                             zeroResult,
+                         },
+                     },
+                 }) => {
                     this.value = value
                     this.format = format || this.format
                     this.prefix = prefix || this.prefix
                     this.suffix = suffix || this.suffix
+                    this.suffixInflection = suffixInflection
+                    this.zeroResult = zeroResult || this.zeroResult
                     this.previous = previous
                     this.loading = false
                 }
@@ -95,16 +125,24 @@ export default {
             return this.card.ranges.length > 0
         },
 
-        rangePayload() {
-            return this.hasRanges ? { params: { range: this.selectedRangeKey } } : {}
+        metricPayload() {
+            const payload = {
+                params: {
+                    timezone: this.userTimezone,
+                },
+            }
+
+            if (this.hasRanges) {
+                payload.params.range = this.selectedRangeKey
+            }
+
+            return payload
         },
 
         metricEndpoint() {
             const lens = this.lens !== '' ? `/lens/${this.lens}` : ''
             if (this.resourceName && this.resourceId) {
-                return `/nova-api/${this.resourceName}${lens}/${this.resourceId}/metrics/${
-                    this.card.uriKey
-                }`
+                return `/nova-api/${this.resourceName}${lens}/${this.resourceId}/metrics/${this.card.uriKey}`
             } else if (this.resourceName) {
                 return `/nova-api/${this.resourceName}${lens}/metrics/${this.card.uriKey}`
             } else {

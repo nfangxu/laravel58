@@ -8,9 +8,16 @@
         >
             <slot :uppercaseMode="uppercaseMode" :mode="mode">
                 <div class="p-8">
-                    <heading :level="2" class="mb-6">{{ __(uppercaseMode + ' Resource') }}</heading>
+                    <heading :level="2" class="mb-6">{{
+                        __(uppercaseMode + ' Resource')
+                        }}
+                    </heading>
                     <p class="text-80 leading-normal">
-                        {{ __('Are you sure you want to ' + mode + ' the selected resources?') }}
+                        {{
+                        __(
+                        'Are you sure you want to ' + mode + ' the selected resources?'
+                        )
+                        }}
                     </p>
                 </div>
             </slot>
@@ -26,6 +33,7 @@
                     >
                         {{ __('Cancel') }}
                     </button>
+
                     <button
                         id="confirm-delete-button"
                         ref="confirmButton"
@@ -47,7 +55,7 @@ export default {
         mode: {
             type: String,
             default: 'delete',
-            validator: function(value) {
+            validator: function (value) {
                 return ['force delete', 'delete', 'detach'].indexOf(value) !== -1
             },
         },

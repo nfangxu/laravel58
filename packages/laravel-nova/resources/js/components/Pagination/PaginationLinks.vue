@@ -7,9 +7,9 @@
                     :disabled="!hasPreviousPages || linksDisabled"
                     class="font-mono btn btn-link h-9 min-w-9 px-2 border-r border-50"
                     :class="{
-                        'text-primary dim': hasPreviousPages,
-                        'text-80 opacity-50': !hasPreviousPages || linksDisabled,
-                    }"
+            'text-primary dim': hasPreviousPages,
+            'text-80 opacity-50': !hasPreviousPages || linksDisabled,
+          }"
                     rel="first"
                     @click.prevent="selectPage(1)"
                     dusk="first"
@@ -22,9 +22,9 @@
                     :disabled="!hasPreviousPages || linksDisabled"
                     class="font-mono btn btn-link h-9 min-w-9 px-2 border-r border-50"
                     :class="{
-                        'text-primary dim': hasPreviousPages,
-                        'text-80 opacity-50': !hasPreviousPages || linksDisabled,
-                    }"
+            'text-primary dim': hasPreviousPages,
+            'text-80 opacity-50': !hasPreviousPages || linksDisabled,
+          }"
                     rel="prev"
                     @click.prevent="selectPreviousPage()"
                     dusk="previous"
@@ -39,9 +39,9 @@
                     :key="n"
                     class="btn btn-link h-9 min-w-9 px-2 border-r border-50"
                     :class="{
-                        'text-primary dim': page !== n,
-                        'text-80 opacity-50': page === n,
-                    }"
+            'text-primary dim': page !== n,
+            'text-80 opacity-50': page === n,
+          }"
                     @click.prevent="selectPage(n)"
                     :dusk="`page:${n}`"
                 >
@@ -53,9 +53,9 @@
                     :disabled="!hasMorePages || linksDisabled"
                     class="font-mono btn btn-link h-9 min-w-9 px-2 border-r border-50"
                     :class="{
-                        'text-primary dim': hasMorePages,
-                        'text-80 opacity-50': !hasMorePages || linksDisabled,
-                    }"
+            'text-primary dim': hasMorePages,
+            'text-80 opacity-50': !hasMorePages || linksDisabled,
+          }"
                     rel="next"
                     @click.prevent="selectNextPage()"
                     dusk="next"
@@ -68,9 +68,9 @@
                     :disabled="!hasMorePages || linksDisabled"
                     class="font-mono btn btn-link h-9 min-w-9 px-2 border-r border-50"
                     :class="{
-                        'text-primary dim': hasMorePages,
-                        'text-80 opacity-50': !hasMorePages || linksDisabled,
-                    }"
+            'text-primary dim': hasMorePages,
+            'text-80 opacity-50': !hasMorePages || linksDisabled,
+          }"
                     rel="last"
                     @click.prevent="selectPage(pages)"
                     dusk="last"
@@ -79,7 +79,7 @@
                 </button>
             </div>
 
-            <slot />
+            <slot/>
         </nav>
     </div>
 </template>
@@ -105,7 +105,7 @@ export default {
         },
     },
 
-    data: () => ({ linksDisabled: false }),
+    data: () => ({linksDisabled: false}),
 
     mounted() {
         Nova.$on('resources-loaded', () => {
@@ -143,14 +143,14 @@ export default {
         /**
          * Determine if prior pages are available.
          */
-        hasPreviousPages: function() {
+        hasPreviousPages: function () {
             return this.page > 1
         },
 
         /**
          * Determine if more pages are available.
          */
-        hasMorePages: function() {
+        hasMorePages: function () {
             return this.page < this.pages
         },
 

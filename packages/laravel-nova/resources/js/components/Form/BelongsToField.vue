@@ -17,15 +17,22 @@
             >
                 <div slot="default" v-if="selectedResource" class="flex items-center">
                     <div v-if="selectedResource.avatar" class="mr-3">
-                        <img :src="selectedResource.avatar" class="w-8 h-8 rounded-full block" />
+                        <img
+                            :src="selectedResource.avatar"
+                            class="w-8 h-8 rounded-full block"
+                        />
                     </div>
 
                     {{ selectedResource.display }}
                 </div>
 
-                <div slot="option" slot-scope="{ option, selected }" class="flex items-center">
+                <div
+                    slot="option"
+                    slot-scope="{ option, selected }"
+                    class="flex items-center"
+                >
                     <div v-if="option.avatar" class="mr-3">
-                        <img :src="option.avatar" class="w-8 h-8 rounded-full block" />
+                        <img :src="option.avatar" class="w-8 h-8 rounded-full block"/>
                     </div>
 
                     {{ option.display }}
@@ -41,6 +48,7 @@
                 @change="selectResourceFromSelectControl"
                 :disabled="isLocked || isReadonly"
                 :options="availableResources"
+                :value="selectedResourceId"
                 :selected="selectedResourceId"
                 label="display"
             >
@@ -48,7 +56,7 @@
             </select-control>
 
             <!-- Trashed State -->
-            <div v-if="softDeletes && !isLocked">
+            <div v-if="softDeletes && !isLocked && !isReadonly">
                 <checkbox-with-label
                     :dusk="`${field.resourceName}-with-trashed-checkbox`"
                     :checked="withTrashed"
@@ -64,12 +72,17 @@
 <script>
 import _ from 'lodash'
 import storage from '@/storage/BelongsToFieldStorage'
-import { TogglesTrashed, PerformsSearches, HandlesValidationErrors } from 'laravel-nova'
+import {
+    TogglesTrashed,
+    PerformsSearches,
+    HandlesValidationErrors,
+} from 'laravel-nova'
 
 export default {
     mixins: [TogglesTrashed, PerformsSearches, HandlesValidationErrors],
     props: {
         resourceName: String,
+        resourceId: {},
         field: Object,
         viaResource: {},
         viaResourceId: {},
@@ -161,8 +174,12 @@ export default {
          */
         getAvailableResources() {
             return storage
-                .fetchAvailableResources(this.resourceName, this.field.attribute, this.queryParams)
-                .then(({ data: { resources, softDeletes, withTrashed } }) => {
+                .fetchAvailableResources(
+                    this.resourceName,
+                    this.field.attribute,
+                    this.queryParams
+                )
+                .then(({data: {resources, softDeletes, withTrashed}}) => {
                     if (this.initializingWithExistingResource || !this.isSearchable) {
                         this.withTrashed = withTrashed
                     }
@@ -178,9 +195,11 @@ export default {
          * Determine if the relatd resource is soft deleting.
          */
         determineIfSoftDeletes() {
-            return storage.determineIfSoftDeletes(this.field.resourceName).then(response => {
-                this.softDeletes = response.data.softDeletes
-            })
+            return storage
+                .determineIfSoftDeletes(this.field.resourceName)
+                .then(response => {
+                    this.softDeletes = response.data.softDeletes
+                })
         },
 
         /**
@@ -236,7 +255,9 @@ export default {
          * Determine if we should select an initial resource when mounting this field
          */
         shouldSelectInitialResource() {
-            return Boolean(this.editingExistingResource || this.creatingViaRelatedResource)
+            return Boolean(
+                this.editingExistingResource || this.creatingViaRelatedResource
+            )
         },
 
         /**
@@ -256,6 +277,10 @@ export default {
                     first: this.initializingWithExistingResource,
                     search: this.search,
                     withTrashed: this.withTrashed,
+                    resourceId: this.resourceId,
+                    viaResource: this.viaResource,
+                    viaResourceId: this.viaResourceId,
+                    viaRelationship: this.viaRelationship,
                 },
             }
         },
@@ -265,7 +290,9 @@ export default {
         },
 
         isReadonly() {
-            return this.field.readonly || _.get(this.field, 'extraAttributes.readonly')
+            return (
+                this.field.readonly || _.get(this.field, 'extraAttributes.readonly')
+            )
         },
     },
 }

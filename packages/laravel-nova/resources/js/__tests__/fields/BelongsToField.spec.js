@@ -27,12 +27,21 @@ describe('BelongsToField', () => {
         expect(wrapper.vm.isSearchable).toBe(false)
         expect(wrapper.vm.shouldSelectInitialResource).toBe(false)
         expect(wrapper.vm.queryParams).toEqual({
-            params: { current: null, first: false, search: '', withTrashed: false },
+            params: {
+                current: null,
+                first: false,
+                search: '',
+                withTrashed: false,
+            },
         })
 
         await flushPromises()
 
-        expect(wrapper.vm.availableResources).toEqual([{ value: 1 }, { value: 2 }, { value: 3 }])
+        expect(wrapper.vm.availableResources).toEqual([
+            {value: 1},
+            {value: 2},
+            {value: 3},
+        ])
         expect(wrapper.vm.selectedResource).toEqual(null)
     })
 
@@ -59,7 +68,12 @@ describe('BelongsToField', () => {
         expect(wrapper.vm.initializingWithExistingResource).toBe(false)
         expect(wrapper.vm.isSearchable).toBe(true)
         expect(wrapper.vm.queryParams).toEqual({
-            params: { current: null, first: false, search: '', withTrashed: false },
+            params: {
+                current: null,
+                first: false,
+                search: '',
+                withTrashed: false,
+            },
         })
 
         await flushPromises()
@@ -91,13 +105,13 @@ describe('BelongsToField', () => {
         expect(wrapper.vm.initializingWithExistingResource).toBe(true)
         expect(wrapper.vm.isSearchable).toBe(true)
         expect(wrapper.vm.queryParams).toEqual({
-            params: { current: 1, first: true, search: '', withTrashed: false },
+            params: {current: 1, first: true, search: '', withTrashed: false},
         })
 
         await flushPromises()
 
-        expect(wrapper.vm.availableResources).toEqual([{ value: 1 }])
-        expect(wrapper.vm.selectedResource).toEqual({ value: 1 })
+        expect(wrapper.vm.availableResources).toEqual([{value: 1}])
+        expect(wrapper.vm.selectedResource).toEqual({value: 1})
     })
 
     test('if editing an existing resource it selects the related resource on mount if the field is not searchable', async () => {
@@ -123,13 +137,22 @@ describe('BelongsToField', () => {
         expect(wrapper.vm.initializingWithExistingResource).toBe(false)
         expect(wrapper.vm.isSearchable).toBe(false)
         expect(wrapper.vm.queryParams).toEqual({
-            params: { current: 1, first: false, search: '', withTrashed: false },
+            params: {
+                current: 1,
+                first: false,
+                search: '',
+                withTrashed: false,
+            },
         })
 
         await flushPromises()
 
-        expect(wrapper.vm.availableResources).toEqual([{ value: 1 }, { value: 2 }, { value: 3 }])
-        expect(wrapper.vm.selectedResource).toEqual({ value: 1 })
+        expect(wrapper.vm.availableResources).toEqual([
+            {value: 1},
+            {value: 2},
+            {value: 3},
+        ])
+        expect(wrapper.vm.selectedResource).toEqual({value: 1})
     })
 
     test('if editing an existing resource it selects the related resource on mount if the field is searchable', async () => {
@@ -153,14 +176,14 @@ describe('BelongsToField', () => {
         expect(wrapper.vm.initializingWithExistingResource).toBe(true)
         expect(wrapper.vm.isSearchable).toBe(true)
         expect(wrapper.vm.queryParams).toEqual({
-            params: { current: 1, first: true, search: '', withTrashed: false },
+            params: {current: 1, first: true, search: '', withTrashed: false},
         })
 
         await flushPromises()
 
-        expect(wrapper.vm.availableResources).toEqual([{ value: 1 }])
+        expect(wrapper.vm.availableResources).toEqual([{value: 1}])
         expect(wrapper.vm.selectedResourceId).toEqual(1)
-        expect(wrapper.vm.selectedResource).toEqual({ value: 1 })
+        expect(wrapper.vm.selectedResource).toEqual({value: 1})
 
         // Ensure it turns off selection of the initial resource after fetching the first time
         expect(wrapper.vm.initializingWithExistingResource).toBe(false)
@@ -208,7 +231,12 @@ describe('BelongsToField', () => {
         expect(wrapper.vm.softDeletes).toBe(true)
         expect(wrapper.vm.withTrashed).toBe(true)
         expect(wrapper.vm.queryParams).toEqual({
-            params: { current: null, first: false, search: '', withTrashed: true },
+            params: {
+                current: null,
+                first: false,
+                search: '',
+                withTrashed: true,
+            },
         })
     })
 
@@ -232,7 +260,12 @@ describe('BelongsToField', () => {
         expect(wrapper.vm.softDeletes).toBe(false)
         expect(wrapper.vm.withTrashed).toBe(false)
         expect(wrapper.vm.queryParams).toEqual({
-            params: { current: null, first: false, search: '', withTrashed: false },
+            params: {
+                current: null,
+                first: false,
+                search: '',
+                withTrashed: false,
+            },
         })
     })
 
@@ -256,7 +289,12 @@ describe('BelongsToField', () => {
         expect(wrapper.vm.withTrashed).toBe(false)
 
         expect(wrapper.vm.queryParams).toEqual({
-            params: { current: null, first: false, search: '', withTrashed: false },
+            params: {
+                current: null,
+                first: false,
+                search: '',
+                withTrashed: false,
+            },
         })
 
         await flushPromises()

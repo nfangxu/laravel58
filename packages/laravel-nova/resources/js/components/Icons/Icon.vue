@@ -8,7 +8,7 @@
         :aria-labelledby="type"
         role="presentation"
     >
-        <component :is="iconName" />
+        <component :is="iconName"/>
     </svg>
 </template>
 

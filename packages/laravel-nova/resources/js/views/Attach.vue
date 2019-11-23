@@ -1,11 +1,18 @@
 <template>
     <loading-view :loading="loading">
+        <custom-attach-header
+            class="mb-3"
+            :resource-name="resourceName"
+            :resource-id="resourceId"
+        />
+
         <heading class="mb-3">{{
             __('Attach :resource', { resource: relatedResourceLabel })
-        }}</heading>
+            }}
+        </heading>
 
-        <card class="overflow-hidden">
-            <form v-if="field" @submit.prevent="attachResource" autocomplete="off">
+        <form v-if="field" @submit.prevent="attachResource" autocomplete="off">
+            <card class="overflow-hidden mb-8">
                 <!-- Related Resource -->
                 <default-field :field="field" :errors="validationErrors">
                     <template slot="field">
@@ -21,7 +28,11 @@
                             searchBy="display"
                             class="mb-3"
                         >
-                            <div slot="default" v-if="selectedResource" class="flex items-center">
+                            <div
+                                slot="default"
+                                v-if="selectedResource"
+                                class="flex items-center"
+                            >
                                 <div v-if="selectedResource.avatar" class="mr-3">
                                     <img
                                         :src="selectedResource.avatar"
@@ -38,7 +49,10 @@
                                 class="flex items-center"
                             >
                                 <div v-if="option.avatar" class="mr-3">
-                                    <img :src="option.avatar" class="w-8 h-8 rounded-full block" />
+                                    <img
+                                        :src="option.avatar"
+                                        class="w-8 h-8 rounded-full block"
+                                    />
                                 </div>
 
                                 {{ option.display }}
@@ -49,7 +63,9 @@
                             v-else
                             dusk="attachable-select"
                             class="form-control form-select mb-3 w-full"
-                            :class="{ 'border-danger': validationErrors.has(field.attribute) }"
+                            :class="{
+                'border-danger': validationErrors.has(field.attribute),
+              }"
                             :data-testid="`${field.resourceName}-select`"
                             @change="selectResourceFromSelectControl"
                             :options="availableResources"
@@ -57,8 +73,11 @@
                             :selected="selectedResourceId"
                         >
                             <option value="" disabled selected>{{
-                                __('Choose :resource', { resource: relatedResourceLabel })
-                            }}</option>
+                                __('Choose :resource', {
+                                resource: relatedResourceLabel,
+                                })
+                                }}
+                            </option>
                         </select-control>
 
                         <!-- Trashed State -->
@@ -86,37 +105,36 @@
                         :via-relationship="viaRelationship"
                     />
                 </div>
+            </card>
 
-                <!-- Attach Button -->
-                <div class="bg-30 flex px-8 py-4">
-                    <a
-                        @click="$router.back()"
-                        class="btn btn-default btn-link dim cursor-pointer text-80 ml-auto mr-6"
-                    >
-                        {{ __('Cancel') }}
-                    </a>
+            <!-- Attach Button -->
+            <div class="flex items-center">
+                <cancel-button/>
 
-                    <progress-button
-                        class="mr-3"
-                        dusk="attach-and-attach-another-button"
-                        @click.native="attachAndAttachAnother"
-                        :disabled="isWorking"
-                        :processing="submittedViaAttachAndAttachAnother"
-                    >
-                        {{ __('Attach & Attach Another') }}
-                    </progress-button>
+                <progress-button
+                    class="mr-3"
+                    dusk="attach-and-attach-another-button"
+                    @click.native="attachAndAttachAnother"
+                    :disabled="isWorking"
+                    :processing="submittedViaAttachAndAttachAnother"
+                >
+                    {{ __('Attach & Attach Another') }}
+                </progress-button>
 
-                    <progress-button
-                        dusk="attach-button"
-                        type="submit"
-                        :disabled="isWorking"
-                        :processing="submittedViaAttachResource"
-                    >
-                        {{ __('Attach :resource', { resource: relatedResourceLabel }) }}
-                    </progress-button>
-                </div>
-            </form>
-        </card>
+                <progress-button
+                    dusk="attach-button"
+                    type="submit"
+                    :disabled="isWorking"
+                    :processing="submittedViaAttachResource"
+                >
+                    {{
+                    __('Attach :resource', {
+                    resource: relatedResourceLabel,
+                    })
+                    }}
+                </progress-button>
+            </div>
+        </form>
     </loading-view>
 </template>
 
@@ -165,7 +183,8 @@ export default {
     }),
 
     created() {
-        if (Nova.missingResource(this.resourceName)) return this.$router.push({ name: '404' })
+        if (Nova.missingResource(this.resourceName))
+            return this.$router.push({name: '404'})
     },
 
     /**
@@ -195,8 +214,10 @@ export default {
             this.field = null
 
             Nova.request()
-                .get('/nova-api/' + this.resourceName + '/field/' + this.viaRelationship)
-                .then(({ data }) => {
+                .get(
+                    '/nova-api/' + this.resourceName + '/field/' + this.viaRelationship
+                )
+                .then(({data}) => {
                     this.field = data
                     this.field.searchable
                         ? this.determineIfSoftDeletes()
@@ -214,9 +235,9 @@ export default {
             Nova.request()
                 .get(
                     '/nova-api/' +
-                        this.resourceName +
-                        '/creation-pivot-fields/' +
-                        this.relatedResourceName,
+                    this.resourceName +
+                    '/creation-pivot-fields/' +
+                    this.relatedResourceName,
                     {
                         params: {
                             editing: true,
@@ -224,7 +245,7 @@ export default {
                         },
                     }
                 )
-                .then(({ data }) => {
+                .then(({data}) => {
                     this.fields = data
 
                     _.each(this.fields, field => {
@@ -243,9 +264,7 @@ export default {
         getAvailableResources(search = '') {
             Nova.request()
                 .get(
-                    `/nova-api/${this.resourceName}/${this.resourceId}/attachable/${
-                        this.relatedResourceName
-                    }`,
+                    `/nova-api/${this.resourceName}/${this.resourceId}/attachable/${this.relatedResourceName}`,
                     {
                         params: {
                             search,
@@ -295,6 +314,7 @@ export default {
 
                 if (error.response.status == 422) {
                     this.validationErrors = new Errors(error.response.data.errors)
+                    Nova.error(this.__('There was a problem submitting the form.'))
                 }
             }
         },
@@ -317,6 +337,7 @@ export default {
 
                 if (error.response.status == 422) {
                     this.validationErrors = new Errors(error.response.data.errors)
+                    Nova.error(this.__('There was a problem submitting the form.'))
                 }
             }
         },
@@ -325,7 +346,16 @@ export default {
          * Send an attach request for this resource
          */
         attachRequest() {
-            return Nova.request().post(this.attachmentEndpoint, this.attachmentFormData)
+            return Nova.request().post(
+                this.attachmentEndpoint,
+                this.attachmentFormData,
+                {
+                    params: {
+                        editing: true,
+                        editMode: 'attach',
+                    },
+                }
+            )
         },
 
         /**
@@ -366,17 +396,17 @@ export default {
         attachmentEndpoint() {
             return this.polymorphic
                 ? '/nova-api/' +
-                      this.resourceName +
-                      '/' +
-                      this.resourceId +
-                      '/attach-morphed/' +
-                      this.relatedResourceName
+                this.resourceName +
+                '/' +
+                this.resourceId +
+                '/attach-morphed/' +
+                this.relatedResourceName
                 : '/nova-api/' +
-                      this.resourceName +
-                      '/' +
-                      this.resourceId +
-                      '/attach/' +
-                      this.relatedResourceName
+                this.resourceName +
+                '/' +
+                this.resourceId +
+                '/attach/' +
+                this.relatedResourceName
         },
 
         /**
@@ -419,7 +449,19 @@ export default {
          * Determine if the form is being processed
          */
         isWorking() {
-            return this.submittedViaAttachResource || this.submittedViaAttachAndAttachAnother
+            return (
+                this.submittedViaAttachResource ||
+                this.submittedViaAttachAndAttachAnother
+            )
+        },
+
+        /**
+         * Return the heading for the view
+         */
+        headingTitle() {
+            return this.__('Attach :resource', {
+                resource: this.relatedResourceLabel,
+            })
         },
     },
 }

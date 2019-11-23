@@ -5,6 +5,7 @@
                 <ImageLoader
                     :src="imageUrl"
                     :maxWidth="maxWidth"
+                    :rounded="rounded"
                     @missing="value => (missing = value)"
                 />
             </template>
@@ -31,7 +32,7 @@
                         width="16"
                         height="16"
                     />
-                    <span class="class mt-1"> Download </span>
+                    <span class="class mt-1">{{ __('Download') }}</span>
                 </a>
             </p>
         </div>
@@ -44,16 +45,16 @@ import ImageLoader from '@/components/ImageLoader'
 export default {
     props: ['resource', 'resourceName', 'resourceId', 'field'],
 
-    components: { ImageLoader },
+    components: {ImageLoader},
 
-    data: () => ({ missing: false }),
+    data: () => ({missing: false}),
 
     methods: {
         /**
          * Download the linked file
          */
         download() {
-            const { resourceName, resourceId } = this
+            const {resourceName, resourceId} = this
             const attribute = this.field.attribute
 
             let link = document.createElement('a')
@@ -67,7 +68,9 @@ export default {
 
     computed: {
         hasValue() {
-            return Boolean(this.field.value || this.imageUrl) && !Boolean(this.missing)
+            return (
+                Boolean(this.field.value || this.imageUrl) && !Boolean(this.missing)
+            )
         },
 
         shouldShowLoader() {
@@ -80,6 +83,10 @@ export default {
 
         imageUrl() {
             return this.field.previewUrl || this.field.thumbnailUrl
+        },
+
+        rounded() {
+            return this.field.rounded
         },
 
         maxWidth() {

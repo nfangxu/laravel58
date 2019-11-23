@@ -1,9 +1,6 @@
 <template>
-    <div class="text-center">
-        <span
-            class="inline-block rounded-full w-2 h-2"
-            :class="{ 'bg-success': field.value, 'bg-danger': !field.value }"
-        />
+    <div :class="`text-${field.textAlign}`">
+        <boolean-icon :value="field.value"/>
     </div>
 </template>
 

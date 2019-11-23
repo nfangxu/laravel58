@@ -1,15 +1,15 @@
 <template>
     <select v-bind="$attrs" :value="value" v-on="inputListeners">
-        <slot />
+        <slot/>
         <template v-for="(options, group) in groupedOptions">
             <optgroup :label="group" v-if="group">
                 <option v-for="option in options" v-bind="attrsFor(option)"
-                    >{{ labelFor(option) }}
+                >{{ labelFor(option) }}
                 </option>
             </optgroup>
             <template v-else>
                 <option v-for="option in options" v-bind="attrsFor(option)"
-                    >{{ labelFor(option) }}
+                >{{ labelFor(option) }}
                 </option>
             </template>
         </template>
@@ -36,6 +36,10 @@ export default {
 
         inputListeners() {
             return _.assign({}, this.$listeners, {
+                change: event => {
+                    this.$emit('input', event.target.value)
+                    this.$emit('change', event)
+                },
                 input: event => {
                     this.$emit('input', event.target.value)
                 },
@@ -44,15 +48,19 @@ export default {
     },
     methods: {
         labelFor(option) {
-            return this.label instanceof Function ? this.label(option) : option[this.label]
+            return this.label instanceof Function
+                ? this.label(option)
+                : option[this.label]
         },
 
         attrsFor(option) {
             return _.assign(
                 {},
                 option.attrs || {},
-                { value: option.value },
-                this.selected !== void 0 ? { selected: this.selected == option.value } : {}
+                {value: option.value},
+                this.selected !== void 0
+                    ? {selected: this.selected == option.value}
+                    : {}
             )
         },
     },

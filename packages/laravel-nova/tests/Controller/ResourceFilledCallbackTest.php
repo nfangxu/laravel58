@@ -2,9 +2,9 @@
 
 namespace Laravel\Nova\Tests\Controller;
 
+use Laravel\Nova\Tests\Fixtures\Address;
 use Laravel\Nova\Tests\Fixtures\User;
 use Laravel\Nova\Tests\IntegrationTest;
-use Laravel\Nova\Tests\Fixtures\Address;
 
 class ResourceFilledCallbackTest extends IntegrationTest
 {
@@ -22,9 +22,9 @@ class ResourceFilledCallbackTest extends IntegrationTest
         $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
-                        ->postJson('/nova-api/addresses', [
-                            'user' => $user->id,
-                        ]);
+            ->postJson('/nova-api/addresses', [
+                'user' => $user->id,
+            ]);
 
         $response->assertStatus(201);
 

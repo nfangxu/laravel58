@@ -7,9 +7,11 @@ import PortalVue from 'portal-vue'
 import Loading from '@/components/Loading'
 import AsyncComputed from 'vue-async-computed'
 import resources from '@/store/resources'
+import VTooltip from 'v-tooltip'
 
 Vue.use(PortalVue)
 Vue.use(AsyncComputed)
+Vue.use(VTooltip)
 
 Vue.use(Toasted, {
     router,
@@ -64,12 +66,12 @@ export default class Nova {
             el: '#nova',
             router,
             store,
-            components: { Loading },
-            mounted: function() {
+            components: {Loading},
+            mounted: function () {
                 this.$loading = this.$refs.loading
 
                 _this.$on('error', message => {
-                    this.$toasted.show(message, { type: 'error' })
+                    this.$toasted.show(message, {type: 'error'})
                 })
 
                 _this.$on('token-expired', () => {
@@ -131,5 +133,23 @@ export default class Nova {
      */
     missingResource(uriKey) {
         return _.find(this.config.resources, r => r.uriKey == uriKey) == undefined
+    }
+
+    /**
+     * Show an error message to the user.
+     *
+     * @param {string} message
+     */
+    error(message) {
+        Vue.toasted.show(message, {type: 'error'})
+    }
+
+    /**
+     * Show a success message to the user.
+     *
+     * @param {string} message
+     */
+    success(message) {
+        Vue.toasted.show(message, {type: 'success'})
     }
 }

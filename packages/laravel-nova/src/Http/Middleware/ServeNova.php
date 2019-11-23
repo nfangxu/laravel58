@@ -2,9 +2,9 @@
 
 namespace Laravel\Nova\Http\Middleware;
 
+use Laravel\Nova\Events\NovaServiceProviderRegistered;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaServiceProvider;
-use Laravel\Nova\Events\NovaServiceProviderRegistered;
 
 class ServeNova
 {
@@ -37,7 +37,7 @@ class ServeNova
         $path = trim(Nova::path(), '/') ?: '/';
 
         return $request->is($path) ||
-               $request->is(trim($path.'/*', '/')) ||
-               $request->is('nova-api/*');
+            $request->is(trim($path.'/*', '/')) ||
+            $request->is('nova-api/*');
     }
 }

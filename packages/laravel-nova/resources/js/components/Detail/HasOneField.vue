@@ -8,6 +8,7 @@
         :relationship-type="'hasOne'"
         @actionExecuted="actionExecuted"
         :load-cards="false"
+        :disable-pagination="true"
     />
 </template>
 

@@ -1,5 +1,7 @@
 <template>
-    <div class="absolute pin bg-40 z-50 flex items-center justify-center min-w-site p-6">
+    <div
+        class="fixed pin bg-40 z-50 flex items-center justify-center min-w-site p-6"
+    >
         <div class="flex items-center w-error">
             <div class="flex-no-shrink illustration">
                 <svg
@@ -45,7 +47,7 @@
                                 rx="10.15"
                                 ry="21.5"
                             />
-                            <ellipse cx="79.56" cy="30" stroke="#4A90E2" rx="17.85" ry="18" />
+                            <ellipse cx="79.56" cy="30" stroke="#4A90E2" rx="17.85" ry="18"/>
                             <ellipse
                                 cx="79.56"
                                 cy="30"
@@ -60,8 +62,14 @@
                             d="M425 74.5A16.5 16.5 0 0 0 441.5 91h44a16.5 16.5 0 0 1 0 33h-143a16.5 16.5 0 0 1 0-33 16.5 16.5 0 0 0 0-33h-66a16.5 16.5 0 0 1 0-33h165a16.5 16.5 0 0 1 0 33A16.5 16.5 0 0 0 425 74.5z"
                         />
                         <g transform="translate(424 130)">
-                            <circle cx="45" cy="45" r="45" stroke="#4A90E2" stroke-width="2" />
-                            <circle cx="45.83" cy="45.83" r="39.17" fill="#FFF" />
+                            <circle
+                                cx="45"
+                                cy="45"
+                                r="45"
+                                stroke="#4A90E2"
+                                stroke-width="2"
+                            />
+                            <circle cx="45.83" cy="45.83" r="39.17" fill="#FFF"/>
                             <circle
                                 cx="47.5"
                                 cy="15.83"
@@ -75,7 +83,13 @@
                                 stroke-width="2"
                                 d="M48.33 25c4.6 0 8.34-3.73 8.34-8.33"
                             />
-                            <circle cx="70" cy="40" r="6.67" stroke="#4A90E2" stroke-width="2" />
+                            <circle
+                                cx="70"
+                                cy="40"
+                                r="6.67"
+                                stroke="#4A90E2"
+                                stroke-width="2"
+                            />
                             <circle
                                 cx="19.17"
                                 cy="42.5"
@@ -102,14 +116,17 @@
                                 stroke-width="2"
                                 d="M45 66.67c0 4.6 3.73 8.33 8.33 8.33"
                             />
-                            <circle cx="19.17" cy="65.83" r="2.5" fill="#4A90E2" />
-                            <circle cx="32.5" cy="10.83" r="2.5" fill="#4A90E2" />
+                            <circle cx="19.17" cy="65.83" r="2.5" fill="#4A90E2"/>
+                            <circle cx="32.5" cy="10.83" r="2.5" fill="#4A90E2"/>
                         </g>
                         <path
                             fill="#DDE4EB"
                             d="M309.1 302.8a19.4 19.4 0 0 0-19.4-19.4H177.14a19.4 19.4 0 0 0 0 38.8h11.65a19.4 19.4 0 1 1 0 38.8H63.63a19.4 19.4 0 0 1-19.4-19.4v-.48a18.92 18.92 0 0 1 18.92-18.92 18.92 18.92 0 0 0 18.91-18.92v-.48a19.4 19.4 0 0 0-19.4-19.4H38.4a19.4 19.4 0 0 1 0-38.8h87.33a19.4 19.4 0 0 0 0-38.8h-11.65a19.4 19.4 0 1 1 0-38.8h200.84a19.4 19.4 0 0 1 0 38.8h-36.87a19.4 19.4 0 0 0 0 38.8H390.6a19.4 19.4 0 0 1 0 38.8h-11.65a19.4 19.4 0 0 0-19.4 19.4v.48a18.92 18.92 0 0 0 18.92 18.92 18.92 18.92 0 0 1 18.92 18.92v.48a19.4 19.4 0 0 1-19.4 19.4h-99.94a19.4 19.4 0 0 1 0-38.8h11.65a19.4 19.4 0 0 0 19.4-19.4z"
                         />
-                        <g stroke-width="2" transform="rotate(-30 693.38531629 74.76561894)">
+                        <g
+                            stroke-width="2"
+                            transform="rotate(-30 693.38531629 74.76561894)"
+                        >
                             <rect
                                 width="72.05"
                                 height="22.36"
@@ -261,14 +278,14 @@
                             stroke-width="2"
                             d="M297.24892926 186.65811968l-4.90813592.95404498.95404498 4.90813592 4.90813592-.95404498zM285.46940306 188.94782763l-4.90813592.95404498.95404498 4.90813591 4.90813592-.95404497zM265.34717903 174.52229125l-4.90813592.95404498 6.48750584 33.37532423 4.90813592-.95404497zM276.14507804 172.4233923l-3.92650873.76323598.38161799 1.96325437 3.92650873-.76323598z"
                         />
-                        <circle cx="401" cy="44" r="6" fill="#9AC2F0" />
+                        <circle cx="401" cy="44" r="6" fill="#9AC2F0"/>
                         <path
                             stroke="#031836"
                             stroke-linecap="round"
                             stroke-width="2"
                             d="M398 53a6 6 0 1 0-6-6"
                         />
-                        <circle cx="90" cy="164" r="6" fill="#9AC2F0" />
+                        <circle cx="90" cy="164" r="6" fill="#9AC2F0"/>
                         <path
                             stroke="#031836"
                             stroke-linecap="round"
@@ -279,8 +296,8 @@
                             fill="#031836"
                             d="M400.75 335h.5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-.5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zM416 349.75v.5a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1zM401.25 365h-.5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h.5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1zM386 350.25v-.5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1zM14.75 202h.5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-.5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zM30 216.75v.5a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1zM15.25 232h-.5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h.5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1zM0 217.25v-.5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zM224.75 7h.5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-.5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1zM240 21.75v.5a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1zM225.25 37h-.5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h.5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1zM210 22.25v-.5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1z"
                         />
-                        <circle cx="377" cy="173" r="4" fill="#031836" />
-                        <circle cx="255" cy="403" r="4" fill="#031836" />
+                        <circle cx="377" cy="173" r="4" fill="#031836"/>
+                        <circle cx="255" cy="403" r="4" fill="#031836"/>
                     </g>
                 </svg>
             </div>
@@ -290,7 +307,9 @@
                 <p class="text-error-subtitle mb-6">{{ __('Whoops') }}&hellip;</p>
                 <p class="text-error-message mb-8 leading-normal">
                     {{
-                        __("We're lost in space. The page you were trying to view does not exist.")
+                    __(
+                    "We're lost in space. The page you were trying to view does not exist."
+                    )
                     }}
                 </p>
                 <router-link

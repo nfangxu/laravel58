@@ -11,7 +11,7 @@ instance.defaults.headers.common['X-CSRF-TOKEN'] = document.head.querySelector(
 instance.interceptors.response.use(
     response => response,
     error => {
-        const { status } = error.response
+        const {status} = error.response
 
         // Show the user a 500 error
         if (status >= 500) {
@@ -25,7 +25,7 @@ instance.interceptors.response.use(
 
         // Handle Forbidden
         if (status === 403) {
-            router.push({ name: '403' })
+            router.push({name: '403'})
         }
 
         // Handle Token Timeouts

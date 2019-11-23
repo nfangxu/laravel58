@@ -6,17 +6,17 @@
             dusk="attach-button"
             :class="classes"
             :to="{
-                name: 'attach',
-                params: {
-                    resourceName: viaResource,
-                    resourceId: viaResourceId,
-                    relatedResourceName: resourceName,
-                },
-                query: {
-                    viaRelationship: viaRelationship,
-                    polymorphic: relationshipType == 'morphToMany' ? '1' : '0',
-                },
-            }"
+        name: 'attach',
+        params: {
+          resourceName: viaResource,
+          resourceId: viaResourceId,
+          relatedResourceName: resourceName,
+        },
+        query: {
+          viaRelationship: viaRelationship,
+          polymorphic: relationshipType == 'morphToMany' ? '1' : '0',
+        },
+      }"
         >
             <slot> {{ __('Attach :resource', { resource: singularName }) }}</slot>
         </router-link>
@@ -27,16 +27,16 @@
             dusk="create-button"
             :class="classes"
             :to="{
-                name: 'create',
-                params: {
-                    resourceName: resourceName,
-                },
-                query: {
-                    viaResource: viaResource,
-                    viaResourceId: viaResourceId,
-                    viaRelationship: viaRelationship,
-                },
-            }"
+        name: 'create',
+        params: {
+          resourceName: resourceName,
+        },
+        query: {
+          viaResource: viaResource,
+          viaResourceId: viaResourceId,
+          viaRelationship: viaRelationship,
+        },
+      }"
         >
             {{ __('Create :resource', { resource: singularName }) }}
         </router-link>
@@ -46,7 +46,7 @@
 <script>
 export default {
     props: {
-        classes: { default: 'btn btn-default btn-primary' },
+        classes: {default: 'btn btn-default btn-primary'},
         singularName: {},
         resourceName: {},
         viaResource: {},

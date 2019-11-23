@@ -1,13 +1,13 @@
 <template>
     <default-field :field="field" :errors="errors" :full-width-content="true">
         <template slot="field">
-            <textarea
-                class="w-full form-control form-input form-input-bordered py-3 h-auto"
-                :id="field.attribute"
-                :dusk="field.attribute"
-                v-model="value"
-                v-bind="extraAttributes"
-            />
+      <textarea
+          class="w-full form-control form-input form-input-bordered py-3 h-auto"
+          :id="field.attribute"
+          :dusk="field.attribute"
+          v-model="value"
+          v-bind="extraAttributes"
+      />
         </template>
     </default-field>
 </template>
@@ -19,7 +19,7 @@ export default {
     mixins: [FormField, HandlesValidationErrors],
 
     props: {
-        resourceName: { type: String },
+        resourceName: {type: String},
         field: {
             type: Object,
             required: true,

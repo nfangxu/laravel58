@@ -14,12 +14,12 @@ describe('ActionSelector', () => {
                 selectedResources: [1, 2, 3],
                 resourceName: 'posts',
                 actions: [
-                    { uriKey: 'action-1', name: 'Action 1' },
-                    { uriKey: 'action-2', name: 'Action 2' },
+                    {uriKey: 'action-1', name: 'Action 1'},
+                    {uriKey: 'action-2', name: 'Action 2'},
                 ],
                 pivotActions: [
-                    { uriKey: 'action-3', name: 'Action 3' },
-                    { uriKey: 'action-4', name: 'Action 4' },
+                    {uriKey: 'action-3', name: 'Action 3'},
+                    {uriKey: 'action-4', name: 'Action 4'},
                 ],
                 pivotName: 'Pivot',
             },

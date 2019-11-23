@@ -1,5 +1,11 @@
 <template>
-    <BasePartitionMetric :title="card.name" :chart-data="chartData" :loading="loading" />
+    <BasePartitionMetric
+        :title="card.name"
+        :help-text="card.helpText"
+        :help-width="card.helpWidth"
+        :chart-data="chartData"
+        :loading="loading"
+    />
 </template>
 
 <script>
@@ -16,10 +22,12 @@ export default {
             type: Object,
             required: true,
         },
+
         resourceName: {
             type: String,
             default: '',
         },
+
         resourceId: {
             type: [Number, String],
             default: '',
@@ -36,27 +44,41 @@ export default {
         chartData: [],
     }),
 
+    watch: {
+        resourceId() {
+            this.fetch()
+        },
+    },
+
     created() {
         this.fetch()
+
+        if (this.card.refreshWhenActionRuns) {
+            Nova.$on('action-executed', () => this.fetch())
+        }
     },
 
     methods: {
         fetch() {
             this.loading = true
 
-            Minimum(Nova.request(this.metricEndpoint)).then(({ data: { value: { value } } }) => {
-                this.chartData = value
-                this.loading = false
-            })
+            Minimum(Nova.request(this.metricEndpoint)).then(
+                ({
+                     data: {
+                         value: {value},
+                     },
+                 }) => {
+                    this.chartData = value
+                    this.loading = false
+                }
+            )
         },
     },
     computed: {
         metricEndpoint() {
             const lens = this.lens !== '' ? `/lens/${this.lens}` : ''
             if (this.resourceName && this.resourceId) {
-                return `/nova-api/${this.resourceName}${lens}/${this.resourceId}/metrics/${
-                    this.card.uriKey
-                }`
+                return `/nova-api/${this.resourceName}${lens}/${this.resourceId}/metrics/${this.card.uriKey}`
             } else if (this.resourceName) {
                 return `/nova-api/${this.resourceName}${lens}/metrics/${this.card.uriKey}`
             } else {

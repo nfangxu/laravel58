@@ -4,7 +4,14 @@
         tabindex="-1"
         role="dialog"
         @modal-close="handleClose"
-        class-whitelist="flatpickr-calendar"
+        :classWhitelist="[
+      'flatpickr-current-month',
+      'flatpickr-next-month',
+      'flatpickr-prev-month',
+      'flatpickr-weekday',
+      'flatpickr-weekdays',
+      'flatpickr-calendar',
+    ]"
     >
         <form
             autocomplete="off"
@@ -12,23 +19,30 @@
             @submit.prevent.stop="handleConfirm"
             class="bg-white rounded-lg shadow-lg overflow-hidden"
             :class="{
-                'w-action-fields': action.fields.length > 0,
-                'w-action': action.fields.length == 0,
-            }"
+        'w-action-fields': action.fields.length > 0,
+        'w-action': action.fields.length == 0,
+      }"
         >
             <div>
-                <heading :level="2" class="border-b border-40 py-8 px-8">{{ action.name }}</heading>
+                <heading :level="2" class="border-b border-40 py-8 px-8">{{
+                    action.name
+                    }}
+                </heading>
 
                 <p v-if="action.fields.length == 0" class="text-80 px-8 my-8">
-                    {{ __('Are you sure you want to run this action?') }}
+                    {{ action.confirmText }}
                 </p>
 
                 <div v-else>
                     <!-- Validation Errors -->
-                    <validation-errors :errors="errors" />
+                    <validation-errors :errors="errors"/>
 
                     <!-- Action Fields -->
-                    <div class="action" v-for="field in action.fields" :key="field.attribute">
+                    <div
+                        class="action"
+                        v-for="field in action.fields"
+                        :key="field.attribute"
+                    >
                         <component
                             :is="'form-' + field.component"
                             :errors="errors"
@@ -45,9 +59,9 @@
                         dusk="cancel-action-button"
                         type="button"
                         @click.prevent="handleClose"
-                        class="btn text-80 font-normal h-9 px-3 mr-3 btn-link"
+                        class="btn btn-link dim cursor-pointer text-80 ml-auto mr-6"
                     >
-                        {{ __('Cancel') }}
+                        {{ action.cancelButtonText }}
                     </button>
 
                     <button
@@ -57,12 +71,12 @@
                         type="submit"
                         class="btn btn-default"
                         :class="{
-                            'btn-primary': !action.destructive,
-                            'btn-danger': action.destructive,
-                        }"
+              'btn-primary': !action.destructive,
+              'btn-danger': action.destructive,
+            }"
                     >
                         <loader v-if="working" width="30"></loader>
-                        <span v-else>{{ __('Run Action') }}</span>
+                        <span v-else>{{ action.confirmButtonText }}</span>
                     </button>
                 </div>
             </div>
@@ -74,10 +88,10 @@
 export default {
     props: {
         working: Boolean,
-        resourceName: { type: String, required: true },
-        action: { type: Object, required: true },
-        selectedResources: { type: [Array, String], required: true },
-        errors: { type: Object, required: true },
+        resourceName: {type: String, required: true},
+        action: {type: Object, required: true},
+        selectedResources: {type: [Array, String], required: true},
+        errors: {type: Object, required: true},
     },
 
     /**

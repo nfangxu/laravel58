@@ -2,15 +2,14 @@
 
 namespace Laravel\Nova\Tests\Fixtures;
 
-use Laravel\Nova\Resource;
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\MorphToMany;
-use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Resource;
 
 class PostResource extends Resource
 {
@@ -49,7 +48,7 @@ class PostResource extends Resource
                     return ! empty($_SERVER['nova.post.nullableDescription']);
                 }),
             MorphMany::make('Comments', 'comments', CommentResource::class),
-            MorphToMany::make('Tags', 'tags', TagResource::class)->display(function ($tag) {
+            MorphToMany::make('Tag', 'tags', TagResource::class)->display(function ($tag) {
                 return strtoupper($tag->name);
             })->searchable()->fields(function () {
                 return [

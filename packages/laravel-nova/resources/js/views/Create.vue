@@ -1,55 +1,50 @@
 <template>
     <loading-view :loading="loading">
-        <heading class="mb-3">{{ __('New :resource', { resource: singularName }) }}</heading>
+        <form
+            v-if="panels"
+            @submit="submitViaCreateResource"
+            autocomplete="off"
+            ref="form"
+        >
+            <form-panel
+                class="mb-8"
+                v-for="panel in panelsWithFields"
+                :panel="panel"
+                :name="panel.name"
+                :key="panel.name"
+                :resource-name="resourceName"
+                :fields="panel.fields"
+                mode="form"
+                :validation-errors="validationErrors"
+                :via-resource="viaResource"
+                :via-resource-id="viaResourceId"
+                :via-relationship="viaRelationship"
+            />
 
-        <card class="overflow-hidden">
-            <form v-if="fields" @submit.prevent="createResource" autocomplete="off">
-                <!-- Validation Errors -->
-                <validation-errors :errors="validationErrors" />
+            <!-- Create Button -->
+            <div class="flex items-center">
+                <cancel-button/>
 
-                <!-- Fields -->
-                <div v-for="field in fields">
-                    <component
-                        :is="'form-' + field.component"
-                        :errors="validationErrors"
-                        :resource-name="resourceName"
-                        :field="field"
-                        :via-resource="viaResource"
-                        :via-resource-id="viaResourceId"
-                        :via-relationship="viaRelationship"
-                    />
-                </div>
+                <progress-button
+                    dusk="create-and-add-another-button"
+                    class="mr-3"
+                    @click.native="submitViaCreateResourceAndAddAnother"
+                    :disabled="isWorking"
+                    :processing="wasSubmittedViaCreateResourceAndAddAnother"
+                >
+                    {{ __('Create & Add Another') }}
+                </progress-button>
 
-                <!-- Create Button -->
-                <div class="bg-30 flex items-center px-8 py-4">
-                    <a
-                        @click="$router.back()"
-                        class="btn btn-link dim cursor-pointer text-80 ml-auto mr-6"
-                    >
-                        {{ __('Cancel') }}
-                    </a>
-
-                    <progress-button
-                        class="mr-3"
-                        dusk="create-and-add-another-button"
-                        @click.native="createAndAddAnother"
-                        :disabled="isWorking"
-                        :processing="submittedViaCreateAndAddAnother"
-                    >
-                        {{ __('Create & Add Another') }}
-                    </progress-button>
-
-                    <progress-button
-                        dusk="create-button"
-                        type="submit"
-                        :disabled="isWorking"
-                        :processing="submittedViaCreateResource"
-                    >
-                        {{ __('Create :resource', { resource: singularName }) }}
-                    </progress-button>
-                </div>
-            </form>
-        </card>
+                <progress-button
+                    dusk="create-button"
+                    type="submit"
+                    :disabled="isWorking"
+                    :processing="wasSubmittedViaCreateResource"
+                >
+                    {{ __('Create :resource', { resource: singularName }) }}
+                </progress-button>
+            </div>
+        </form>
     </loading-view>
 </template>
 
@@ -78,19 +73,22 @@ export default {
     data: () => ({
         relationResponse: null,
         loading: true,
-        submittedViaCreateAndAddAnother: false,
+        submittedViaCreateResourceAndAddAnother: false,
         submittedViaCreateResource: false,
         fields: [],
+        panels: [],
         validationErrors: new Errors(),
+        isWorking: false,
     }),
 
     async created() {
-        if (Nova.missingResource(this.resourceName)) return this.$router.push({ name: '404' })
+        if (Nova.missingResource(this.resourceName))
+            return this.$router.push({name: '404'})
 
         // If this create is via a relation index, then let's grab the field
         // and use the label for that as the one we use for the title and buttons
         if (this.isRelation) {
-            const { data } = await Nova.request(
+            const {data} = await Nova.request(
                 '/nova-api/' + this.viaResource + '/field/' + this.viaRelationship
             )
             this.relationResponse = data
@@ -104,9 +102,12 @@ export default {
          * Get the available fields for the resource.
          */
         async getFields() {
+            this.panels = []
             this.fields = []
 
-            const { data: fields } = await Nova.request().get(
+            const {
+                data: {panels, fields},
+            } = await Nova.request().get(
                 `/nova-api/${this.resourceName}/creation-fields`,
                 {
                     params: {
@@ -119,69 +120,69 @@ export default {
                 }
             )
 
+            this.panels = panels
             this.fields = fields
             this.loading = false
+        },
+
+        async submitViaCreateResource(e) {
+            e.preventDefault()
+            this.submittedViaCreateResource = true
+            this.submittedViaCreateResourceAndAddAnother = false
+            await this.createResource()
+        },
+
+        async submitViaCreateResourceAndAddAnother() {
+            this.submittedViaCreateResourceAndAddAnother = true
+            this.submittedViaCreateResource = false
+            await this.createResource()
         },
 
         /**
          * Create a new resource instance using the provided data.
          */
         async createResource() {
+            this.isWorking = true
+
+            if (this.$refs.form.reportValidity()) {
+                try {
+                    const {
+                        data: {redirect},
+                    } = await this.createRequest()
+
+                    Nova.success(
+                        this.__('The :resource was created!', {
+                            resource: this.resourceInformation.singularLabel.toLowerCase(),
+                        })
+                    )
+
+                    if (this.submittedViaCreateResource) {
+                        this.$router.push({path: redirect})
+                    } else {
+                        // Reset the form by refetching the fields
+                        this.getFields()
+                        this.validationErrors = new Errors()
+                        this.submittedViaCreateAndAddAnother = false
+                        this.submittedViaCreateResource = false
+                        this.isWorking = false
+
+                        return
+                    }
+                } catch (error) {
+                    this.submittedViaCreateAndAddAnother = false
+                    this.submittedViaCreateResource = true
+                    this.isWorking = false
+
+                    if (error.response.status == 422) {
+                        this.validationErrors = new Errors(error.response.data.errors)
+                        Nova.error(this.__('There was a problem submitting the form.'))
+                    }
+                }
+            }
+
+            this.submittedViaCreateAndAddAnother = false
             this.submittedViaCreateResource = true
-
-            try {
-                const {
-                    data: { redirect },
-                } = await this.createRequest()
-
-                this.submittedViaCreateResource = false
-
-                this.$toasted.show(
-                    this.__('The :resource was created!', {
-                        resource: this.resourceInformation.singularLabel.toLowerCase(),
-                    }),
-                    { type: 'success' }
-                )
-
-                this.$router.push({ path: redirect })
-            } catch (error) {
-                this.submittedViaCreateResource = false
-
-                if (error.response.status == 422) {
-                    this.validationErrors = new Errors(error.response.data.errors)
-                }
-            }
-        },
-
-        /**
-         * Create a new resource and reset the form
-         */
-        async createAndAddAnother() {
-            this.submittedViaCreateAndAddAnother = true
-
-            try {
-                const response = await this.createRequest()
-
-                this.submittedViaCreateAndAddAnother = false
-
-                this.$toasted.show(
-                    this.__('The :resource was created!', {
-                        resource: this.resourceInformation.singularLabel.toLowerCase(),
-                    }),
-                    { type: 'success' }
-                )
-
-                // Reset the form by refetching the fields
-                this.getFields()
-
-                this.validationErrors = new Errors()
-            } catch (error) {
-                this.submittedViaCreateAndAddAnother = false
-
-                if (error.response.status == 422) {
-                    this.validationErrors = new Errors(error.response.data.errors)
-                }
-            }
+            this.isWorking = false
         },
 
         /**
@@ -190,7 +191,13 @@ export default {
         createRequest() {
             return Nova.request().post(
                 `/nova-api/${this.resourceName}`,
-                this.createResourceFormData()
+                this.createResourceFormData(),
+                {
+                    params: {
+                        editing: true,
+                        editMode: 'create',
+                    },
+                }
             )
         },
 
@@ -211,6 +218,23 @@ export default {
     },
 
     computed: {
+        wasSubmittedViaCreateResource() {
+            return this.isWorking && this.submittedViaCreateResource
+        },
+
+        wasSubmittedViaCreateResourceAndAddAnother() {
+            return this.isWorking && this.submittedViaCreateResourceAndAddAnother
+        },
+
+        panelsWithFields() {
+            return _.map(this.panels, panel => {
+                return {
+                    name: panel.name,
+                    fields: _.filter(this.fields, field => field.panel == panel.name),
+                }
+            })
+        },
+
         singularName() {
             if (this.relationResponse) {
                 return this.relationResponse.singularLabel
@@ -221,13 +245,6 @@ export default {
 
         isRelation() {
             return Boolean(this.viaResourceId && this.viaRelationship)
-        },
-
-        /**
-         * Determine if the form is being processed
-         */
-        isWorking() {
-            return this.submittedViaCreateResource || this.submittedViaCreateAndAddAnother
         },
     },
 }

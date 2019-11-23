@@ -76,10 +76,21 @@ metadata:
 spec:
   tls:
     - hosts:
-        - www.nfangxu.com,nfangxu.com
+        - www.nfangxu.com
+      secretName: www-nfangxu-com-secret
+    - hosts:
+        - nfangxu.com
       secretName: www-nfangxu-com-secret
   rules:
-    - host: www.nfangxu.com,nfangxu.com
+    - host: www.nfangxu.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: __NAME__-service
+              servicePort: 80
+
+    - host: nfangxu.com
       http:
         paths:
           - path: /

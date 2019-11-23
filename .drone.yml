@@ -31,6 +31,4 @@ steps:
   commands:
   - sed -i -e 's/__TAG__/auto-${DRONE_BUILD_NUMBER}/g' deploy.yml || true
   - sed -i -e 's/__NAME__/blog/g' deploy.yml || true
-#  - kubectl delete -f deploy.yml || true
-#  - kubectl apply -f deploy.yml
-  - kubectl rolling-update blog-deployment --image=registry-vpc.cn-beijing.aliyuncs.com/nfangxu/blog:auto-${DRONE_BUILD_NUMBER} || kubectl apply -f deploy.yml
+  - kubectl rolling-update deploy blog-deployment --image=registry-vpc.cn-beijing.aliyuncs.com/nfangxu/blog:auto-${DRONE_BUILD_NUMBER} || kubectl apply -f deploy.yml

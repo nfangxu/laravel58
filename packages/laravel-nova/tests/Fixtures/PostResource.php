@@ -48,7 +48,7 @@ class PostResource extends Resource
                     return ! empty($_SERVER['nova.post.nullableDescription']);
                 }),
             MorphMany::make('Comments', 'comments', CommentResource::class),
-            MorphToMany::make('Tag', 'tags', TagResource::class)->display(function ($tag) {
+            MorphToMany::make('Tags', 'tags', TagResource::class)->display(function ($tag) {
                 return strtoupper($tag->name);
             })->searchable()->fields(function () {
                 return [

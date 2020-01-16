@@ -74,8 +74,8 @@ class FieldControllerTest extends IntegrationTest
         $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
-            ->get('/nova-api/users/' . $user->id . '/update-fields')
-            ->assertOk();
+                        ->get('/nova-api/users/'.$user->id.'/update-fields')
+                        ->assertOk();
 
         $fields = collect($response->original['fields']);
         $this->assertCount(0, $fields->where('attribute', 'id'));

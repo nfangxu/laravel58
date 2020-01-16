@@ -118,10 +118,10 @@ class Trix extends Field implements StorableContract, DeletableContract
     }
 
     /**
-     * Specify that file storage should not be allowed.
+     * Specify that file uploads should not be allowed.
      *
      * @param  string  $disk
-     * @param string $path
+     * @param  string  $path
      * @return $this
      */
     public function withFiles($disk = null, $path = '/')

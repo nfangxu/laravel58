@@ -149,7 +149,7 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Prepare the lens for JSON serialization using the given fields.
      *
-     * @param \Laravel\Nova\Fields\FieldCollection $fields
+     * @param  \Laravel\Nova\Fields\FieldCollection  $fields
      * @return array
      */
     protected function serializeWithId(FieldCollection $fields)

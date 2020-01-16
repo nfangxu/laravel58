@@ -105,7 +105,7 @@ abstract class Metric extends Card
     /**
      * Set whether the metric should refresh when actions are run.
      *
-     * @param bool $value
+     * @param  bool  $value
      */
     public function refreshWhenActionRuns($value = true)
     {

@@ -126,12 +126,12 @@ abstract class Value extends RangedMetric
      * Calculate the previous range and calculate any short-cuts.
      *
      * @param  string|int  $range
-     * @param string $timezone
+     * @param  string  $timezone
      * @return array
      */
     protected function previousRange($range, $timezone = null)
     {
-        if (!$timezone) {
+        if (! $timezone) {
             $timezone = $this->getDefaultTimezone();
         }
 
@@ -175,7 +175,7 @@ abstract class Value extends RangedMetric
      */
     protected function previousQuarterRange($timezone = null)
     {
-        if (!$timezone) {
+        if (! $timezone) {
             $timezone = $this->getDefaultTimezone();
         }
 
@@ -189,12 +189,12 @@ abstract class Value extends RangedMetric
      * Calculate the current range and calculate any short-cuts.
      *
      * @param  string|int  $range
-     * @param string $timezone
+     * @param  string  $timezone
      * @return array
      */
     protected function currentRange($range, $timezone = null)
     {
-        if (!$timezone) {
+        if (! $timezone) {
             $timezone = $this->getDefaultTimezone();
         }
 
@@ -232,13 +232,13 @@ abstract class Value extends RangedMetric
     /**
      * Calculate the previous quarter range.
      *
-     * @param string $timezone
+     * @param  string  $timezone
      *
      * @return array
      */
     protected function currentQuarterRange($timezone = null)
     {
-        if (!$timezone) {
+        if (! $timezone) {
             $timezone = $this->getDefaultTimezone();
         }
 
@@ -251,7 +251,7 @@ abstract class Value extends RangedMetric
     /**
      * Set the precision level used when rounding the value.
      *
-     * @param int $precision
+     * @param  int  $precision
      * @return $this
      */
     public function precision($precision = 0)

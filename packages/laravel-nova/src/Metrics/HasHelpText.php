@@ -44,7 +44,7 @@ trait HasHelpText
     /**
      * Set the width for the help text tooltip.
      *
-     * @param string
+     * @param  string
      * @return $this
      */
     public function helpWidth($helpWidth)

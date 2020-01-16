@@ -45,15 +45,15 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the index view.
      *
-     * @param \Closure|bool $callback
+     * @param  \Closure|bool  $callback
      * @return $this
      */
     public function hideFromIndex($callback = true)
     {
         $this->showOnIndex = is_callable($callback) ? function () use ($callback) {
-            return !call_user_func_array($callback, func_get_args());
+            return ! call_user_func_array($callback, func_get_args());
         }
-            : !$callback;
+        : ! $callback;
 
         return $this;
     }
@@ -61,15 +61,15 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the detail view.
      *
-     * @param \Closure|bool $callback
+     * @param  \Closure|bool  $callback
      * @return $this
      */
     public function hideFromDetail($callback = true)
     {
         $this->showOnDetail = is_callable($callback) ? function () use ($callback) {
-            return !call_user_func_array($callback, func_get_args());
+            return ! call_user_func_array($callback, func_get_args());
         }
-            : !$callback;
+        : ! $callback;
 
         return $this;
     }
@@ -77,15 +77,15 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the creation view.
      *
-     * @param \Closure|bool $callback
+     * @param  \Closure|bool  $callback
      * @return $this
      */
     public function hideWhenCreating($callback = true)
     {
         $this->showOnCreation = is_callable($callback) ? function () use ($callback) {
-            return !call_user_func_array($callback, func_get_args());
+            return ! call_user_func_array($callback, func_get_args());
         }
-            : !$callback;
+        : ! $callback;
 
         return $this;
     }
@@ -93,15 +93,15 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the update view.
      *
-     * @param \Closure|bool $callback
+     * @param  \Closure|bool  $callback
      * @return $this
      */
     public function hideWhenUpdating($callback = true)
     {
         $this->showOnUpdate = is_callable($callback) ? function () use ($callback) {
-            return !call_user_func_array($callback, func_get_args());
+            return ! call_user_func_array($callback, func_get_args());
         }
-            : !$callback;
+        : ! $callback;
 
         return $this;
     }
@@ -109,7 +109,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the index view.
      *
-     * @param \Closure|bool $callback
+     * @param  \Closure|bool  $callback
      * @return $this
      */
     public function showOnIndex($callback = true)
@@ -122,7 +122,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the detail view.
      *
-     * @param \Closure|bool $callback
+     * @param  \Closure|bool  $callback
      * @return $this
      */
     public function showOnDetail($callback = true)
@@ -135,7 +135,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the creation view.
      *
-     * @param \Closure|bool $callback
+     * @param  \Closure|bool  $callback
      * @return $this
      */
     public function showOnCreating($callback = true)
@@ -148,7 +148,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the update view.
      *
-     * @param \Closure|bool $callback
+     * @param  \Closure|bool  $callback
      * @return $this
      */
     public function showOnUpdating($callback = true)
@@ -161,8 +161,8 @@ abstract class FieldElement extends Element
     /**
      * Check for showing when updating.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @param mixed $resource
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  mixed  $resource
      * @return bool
      */
     public function isShownOnUpdate(NovaRequest $request, $resource): bool
@@ -177,8 +177,8 @@ abstract class FieldElement extends Element
     /**
      * Check showing on index.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @param mixed $resource
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  mixed  $resource
      * @return bool
      */
     public function isShownOnIndex(NovaRequest $request, $resource): bool
@@ -193,8 +193,8 @@ abstract class FieldElement extends Element
     /**
      * Check showing on detail.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @param mixed $resource
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  mixed  $resource
      * @return bool
      */
     public function isShownOnDetail(NovaRequest $request, $resource): bool
@@ -209,7 +209,7 @@ abstract class FieldElement extends Element
     /**
      * Check for showing when creating.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return bool
      */
     public function isShownOnCreation(NovaRequest $request): bool

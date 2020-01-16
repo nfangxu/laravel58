@@ -526,8 +526,8 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Indicate that the field should be nullable.
      *
-     * @param bool $nullable
-     * @param array|Closure $values
+     * @param  bool  $nullable
+     * @param  array|Closure  $values
      * @return $this
      */
     public function nullable($nullable = true, $values = null)
@@ -544,7 +544,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Specify nullable values.
      *
-     * @param array|Closure $values
+     * @param  array|Closure  $values
      * @return $this
      */
     public function nullValues($values)
@@ -593,7 +593,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the callback used to determine if the field is readonly.
      *
-     * @param Closure|bool $callback
+     * @param  Closure|bool  $callback
      * @return $this
      */
     public function readonly($callback = true)
@@ -606,7 +606,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Determine if the field is readonly.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return bool
      */
     public function isReadonly(NovaRequest $request)
@@ -637,7 +637,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the text alignment of the field.
      *
-     * @param string $alignment
+     * @param  string  $alignment
      * @return $this
      */
     public function textAlign($alignment)
@@ -650,7 +650,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the callback used to determine if the field is required.
      *
-     * @param Closure|bool $callback
+     * @param  Closure|bool  $callback
      * @return $this
      */
     public function required($callback = true)
@@ -662,7 +662,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
 
     /**
      * Determine if the field is required.
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return bool
      */
     public function isRequired(NovaRequest $request)
@@ -672,7 +672,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
                 return true;
             }
 
-            if (!empty($this->attribute) && is_null($callback)) {
+            if (! empty($this->attribute) && is_null($callback)) {
                 if ($request->isCreateOrAttachRequest()) {
                     return in_array('required', $this->getCreationRules($request)[$this->attribute]);
                 }

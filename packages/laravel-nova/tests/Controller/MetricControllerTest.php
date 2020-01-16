@@ -194,7 +194,7 @@ class MetricControllerTest extends IntegrationTest
         $user->save();
 
         $response = $this->withExceptionHandling()
-            ->get('/nova-api/users/metrics/user-growth?range=TODAY');
+                        ->get('/nova-api/users/metrics/user-growth?range=TODAY');
 
         $response->assertStatus(200);
         $this->assertEquals(2, $response->original['value']->value);
@@ -279,7 +279,7 @@ class MetricControllerTest extends IntegrationTest
         $post->save();
 
         $response = $this->withExceptionHandling()
-            ->get('/nova-api/posts/metrics/post-word-count?range=TODAY');
+                        ->get('/nova-api/posts/metrics/post-word-count?range=TODAY');
 
         $response->assertStatus(200);
         $this->assertEquals(83, $response->original['value']->value);

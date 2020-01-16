@@ -395,17 +395,17 @@ class FileFieldControllerTest extends IntegrationTest
 
         $_SERVER['nova.fileResource.imageField'] = function ($request) {
             return Image::make('Avatar', 'avatar', 'public')
-                ->store(function (Request $request, $model) {
-                    return function () use ($request, $model) {
-                        $model->avatar = $request->file('avatar')->store('avatars', 'public');
-                    };
-                });
+                        ->store(function (Request $request, $model) {
+                            return function () use ($request, $model) {
+                                $model->avatar = $request->file('avatar')->store('avatars', 'public');
+                            };
+                        });
         };
 
         $response = $this->withExceptionHandling()
-            ->postJson('/nova-api/files', [
-                'avatar' => UploadedFile::fake()->image('avatar.png'),
-            ]);
+             ->postJson('/nova-api/files', [
+                 'avatar' => UploadedFile::fake()->image('avatar.png'),
+             ]);
 
         unset($_SERVER['nova.fileResource.imageField']);
 

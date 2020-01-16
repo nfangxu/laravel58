@@ -23,7 +23,7 @@ class BooleanGroup extends Field
     /**
      * Set the options for the field.
      *
-     * @param array|\Closure|\Illuminate\Support\Collection
+     * @param  array|\Closure|\Illuminate\Support\Collection
      * @return $this
      */
     public function options($options)
@@ -46,10 +46,10 @@ class BooleanGroup extends Field
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @param string $requestAttribute
-     * @param object $model
-     * @param string $attribute
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  string  $requestAttribute
+     * @param  object  $model
+     * @param  string  $attribute
      * @return void
      */
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)

@@ -314,7 +314,7 @@ class BelongsToMany extends Field implements DeletableContract, ListableField, R
         return array_merge(parent::jsonSerialize(), [
             'belongsToManyRelationship' => $this->manyToManyRelationship,
             'listable' => true,
-            'perPage' => $this->resourceClass::$perPageViaRelationship,
+            'perPage'=> $this->resourceClass::$perPageViaRelationship,
             'resourceName' => $this->resourceName,
             'searchable' => $this->searchable,
             'singularLabel' => $this->singularLabel ?? Str::singular($this->name),

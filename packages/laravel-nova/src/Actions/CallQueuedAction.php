@@ -76,7 +76,7 @@ class CallQueuedAction
         }
 
         return method_exists($this, 'failed')
-            ? 'failed' : null;
+                    ? 'failed' : null;
     }
 
     /**

@@ -27,7 +27,7 @@ class Place extends Text
              ->city('city')
              ->state('state')
              ->postalCode('postal_code')
-            ->suburb('suburb')
+             ->suburb('suburb')
              ->country('country')
              ->latitude('latitude')
              ->longitude('longitude');
@@ -116,7 +116,7 @@ class Place extends Text
     /**
      * Specify the field that contains the suburb.
      *
-     * @param string $field
+     * @param  string  $field
      * @return $this
      */
     public function suburb($field)

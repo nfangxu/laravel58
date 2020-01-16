@@ -28,9 +28,9 @@ class ResourceRestoreTest extends IntegrationTest
         $user2->delete();
 
         $response = $this->withExceptionHandling()
-            ->putJson('/nova-api/users/restore', [
-                'resources' => [$user->id, $user2->id],
-            ]);
+                        ->putJson('/nova-api/users/restore', [
+                            'resources' => [$user->id, $user2->id],
+                        ]);
 
         $response->assertStatus(200);
 
@@ -53,9 +53,9 @@ class ResourceRestoreTest extends IntegrationTest
         $user2->delete();
 
         $response = $this->withExceptionHandling()
-            ->putJson('/nova-api/users/restore?search='.$user->email, [
-                'resources' => 'all',
-            ]);
+                        ->putJson('/nova-api/users/restore?search='.$user->email, [
+                            'resources' => 'all',
+                        ]);
 
         $response->assertStatus(200);
 
@@ -85,9 +85,9 @@ class ResourceRestoreTest extends IntegrationTest
         ]));
 
         $response = $this->withExceptionHandling()
-            ->putJson('/nova-api/users/restore?filters='.$filters, [
-                'resources' => 'all',
-            ]);
+                        ->putJson('/nova-api/users/restore?filters='.$filters, [
+                            'resources' => 'all',
+                        ]);
 
         $response->assertStatus(200);
 
@@ -115,9 +115,9 @@ class ResourceRestoreTest extends IntegrationTest
         Gate::policy(User::class, UserPolicy::class);
 
         $response = $this->withExceptionHandling()
-            ->putJson('/nova-api/users/restore', [
-                'resources' => [$user->id],
-            ]);
+                        ->putJson('/nova-api/users/restore', [
+                            'resources' => [$user->id],
+                        ]);
 
         unset($_SERVER['nova.user.authorizable']);
         unset($_SERVER['nova.user.restorable']);
@@ -138,9 +138,9 @@ class ResourceRestoreTest extends IntegrationTest
         $user->delete();
 
         $response = $this->withExceptionHandling()
-            ->putJson('/nova-api/users/restore', [
-                'resources' => [$user->id],
-            ]);
+                        ->putJson('/nova-api/users/restore', [
+                            'resources' => [$user->id],
+                        ]);
 
         $actionEvent = ActionEvent::first();
 

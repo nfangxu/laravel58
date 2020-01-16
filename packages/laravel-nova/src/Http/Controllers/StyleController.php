@@ -25,6 +25,6 @@ class StyleController extends Controller
         abort_if(is_null($path), 404);
 
         return BinaryFileResponse::create($path, 200, ['Content-Type' => 'text/css'], false)
-            ->setAutoLastModified();
+                                 ->setAutoLastModified();
     }
 }

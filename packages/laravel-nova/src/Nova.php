@@ -146,7 +146,7 @@ class Nova
      */
     public static function version()
     {
-        return '2.7.0';
+        return '2.7.1';
     }
 
     /**
@@ -301,8 +301,8 @@ class Nova
             );
 
             if (is_subclass_of($resource, Resource::class) &&
-                !(new ReflectionClass($resource))->isAbstract() &&
-                !(is_subclass_of($resource, ActionResource::class))) {
+                ! (new ReflectionClass($resource))->isAbstract() &&
+                ! (is_subclass_of($resource, ActionResource::class))) {
                 $resources[] = $resource;
             }
         }
@@ -592,7 +592,7 @@ class Nova
     /**
      * Get the dashboards registered with Nova.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public static function availableDashboards(Request $request)
@@ -603,7 +603,7 @@ class Nova
     /**
      * Register the dashboards.
      *
-     * @param array $dashboards
+     * @param  array  $dashboards
      * @return static
      */
     public static function dashboards(array $dashboards)
@@ -616,7 +616,7 @@ class Nova
     /**
      * Get the available dashboard cards for the given request.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Illuminate\Support\Collection
      */
     public static function allAvailableDashboardCards(NovaRequest $request)
@@ -636,8 +636,8 @@ class Nova
     /**
      * Get the available dashboard cards for the given request.
      *
-     * @param string $dashboard
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  string  $dashboard
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Illuminate\Support\Collection
      */
     public static function availableDashboardCardsForDashboard($dashboard, NovaRequest $request)
@@ -756,13 +756,13 @@ class Nova
     /**
      * Register the given translations with Nova.
      *
-     * @param array|string $translations
+     * @param  array|string  $translations
      * @return static
      */
     public static function translations($translations)
     {
         if (is_string($translations)) {
-            if (!is_readable($translations)) {
+            if (! is_readable($translations)) {
                 return new static;
             }
 
@@ -847,10 +847,10 @@ class Nova
     /**
      * Register the callback used to set a custom Nova error reporter.
      *
-     * @param \Closure $callback
-     * @return static
      * @var \Closure
      *
+     * @param \Closure $callback
+     * @return static
      */
     public static function report($callback)
     {

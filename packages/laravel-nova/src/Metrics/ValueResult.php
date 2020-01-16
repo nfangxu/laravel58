@@ -164,7 +164,7 @@ class ValueResult implements JsonSerializable
     /**
      * Sets the zeroResult value.
      *
-     * @param bool $zeroResult
+     * @param  bool  $zeroResult
      * @return $this
      */
     public function allowZeroResult($zeroResult = true)

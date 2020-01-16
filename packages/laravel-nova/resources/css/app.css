@@ -155,7 +155,7 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .form-input {
-  @apply . bg-white . border . border-white . px-3 . text-80 . rounded-lg;
+  @apply .bg-white .border .border-white .px-3 .text-80 .rounded-lg;
 }
 
 .form-control-focus {
@@ -164,7 +164,7 @@ input[type='search']::-webkit-search-cancel-button {
 
 .form-input:focus,
 .form-input:active {
-  @apply bg-white . rounded-lg . form-control-focus;
+  @apply bg-white .rounded-lg .form-control-focus;
 }
 
 .form-control-lg {
@@ -172,7 +172,7 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .form-input-bordered {
-  @apply . bg-white . border . border-60 . px-3 . text-80 . rounded-lg;
+  @apply .bg-white .border .border-60 .px-3 .text-80 .rounded-lg;
 }
 
 .form-input-row {
@@ -184,7 +184,7 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .form-select {
-  @apply . bg-white . border . border-60 . pl-3 . pr-8 . rounded-lg . text-80;
+  @apply .bg-white .border .border-60 .pl-3 .pr-8 .rounded-lg .text-80;
   appearance: none;
   background-repeat: no-repeat;
   background-size: 10px 6px;
@@ -215,11 +215,11 @@ textarea.form-input:read-only,
 }
 
 .form-select:focus {
-  @apply bg-white . form-control-focus;
+  @apply bg-white .form-control-focus;
 }
 
 .form-combo {
-  @apply . bg-white . border . border-60 . rounded-lg . text-80 . overflow-hidden;
+  @apply .bg-white .border .border-60 .rounded-lg .text-80 .overflow-hidden;
 }
 
 .form-combo-select {
@@ -326,7 +326,7 @@ textarea.form-input:read-only,
 
 .btn-link:focus,
 .btn-link:active {
-  @apply . form-control-focus;
+  @apply .form-control-focus;
 }
 
 .btn-primary {
@@ -372,7 +372,7 @@ textarea.form-input:read-only,
 
 .default-link:active,
 .default-link:focus {
-  @apply . form-control-focus;
+  @apply .form-control-focus;
 }
 
 .inline-link {

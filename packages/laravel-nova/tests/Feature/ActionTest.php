@@ -24,8 +24,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_respect_old_only_on_index_value()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
             public $onlyOnIndex = true;
         });
 
@@ -36,8 +35,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_respect_old_only_on_detail_value()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
             public $onlyOnDetail = true;
         });
 
@@ -48,8 +46,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_should_be_hidden_from_the_table_row_by_default_and_shown_everywhere_else()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
         });
 
         $this->assertShownOnIndex($action);
@@ -59,8 +56,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_shown_on_index()
     {
-        $action = new class extends Action
-        {
+        $action = new class extends Action {
         };
         $action->showOnIndex = false;
         $action->showOnIndex();
@@ -70,8 +66,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_shown_only_on_index()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
         })->onlyOnIndex();
 
         $this->assertShownOnIndex($action);
@@ -87,8 +82,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_hidden_from_index()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
         })->exceptOnIndex();
 
         $this->assertHiddenFromIndex($action);
@@ -98,8 +92,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_shown_on_detail()
     {
-        $action = new class extends Action
-        {
+        $action = new class extends Action {
         };
         $action->showOnDetail = false;
         $action->showOnDetail();
@@ -109,8 +102,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_shown_only_on_detail()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
         })->onlyOnDetail();
 
         $this->assertHiddenFromIndex($action);
@@ -126,8 +118,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_hidden_from_detail()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
         })->exceptOnDetail();
 
         $this->assertShownOnIndex($action);
@@ -137,8 +128,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_shown_on_table_row()
     {
-        $action = new class extends Action
-        {
+        $action = new class extends Action {
         };
         $action->showOnTableRow = false;
         $action->showOnTableRow();
@@ -148,8 +138,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_shown_only_on_table_row()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
         })->onlyOnTableRow();
 
         $action->onlyOnTableRow(false);
@@ -161,8 +150,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_be_hidden_from_table_row()
     {
-        $action = (new class extends Action
-        {
+        $action = (new class extends Action {
         })->exceptOnTableRow();
 
         $this->assertShownOnIndex($action);
@@ -172,8 +160,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_have_custom_confirmation_button_text()
     {
-        $action = new class extends Action
-        {
+        $action = new class extends Action {
         };
 
         $this->assertSubset(['confirmButtonText' => 'Run Action'], $action->jsonSerialize());
@@ -185,8 +172,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_can_have_custom_cancel_button_text()
     {
-        $action = new class extends Action
-        {
+        $action = new class extends Action {
         };
 
         $this->assertSubset(['cancelButtonText' => 'Cancel'], $action->jsonSerialize());
@@ -198,8 +184,7 @@ class ActionTest extends IntegrationTest
 
     public function test_actions_with_no_fields_can_have_custom_confirmation_text()
     {
-        $action = new class extends Action
-        {
+        $action = new class extends Action {
         };
 
         $this->assertSubset(['confirmText' => 'Are you sure you want to run this action?'], $action->jsonSerialize());

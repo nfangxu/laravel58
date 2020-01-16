@@ -110,7 +110,7 @@ class HasMany extends Field implements ListableField, RelatableField
         return array_merge(parent::jsonSerialize(), [
             'hasManyRelationship' => $this->hasManyRelationship,
             'listable' => true,
-            'perPage' => $this->resourceClass::$perPageViaRelationship,
+            'perPage'=> $this->resourceClass::$perPageViaRelationship,
             'resourceName' => $this->resourceName,
             'singularLabel' => $this->singularLabel ?? Str::singular($this->name),
         ]);

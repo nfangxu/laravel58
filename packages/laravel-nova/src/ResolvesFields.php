@@ -28,7 +28,7 @@ trait ResolvesFields
     {
         return $this->resolveFields($request, function (FieldCollection $fields) use ($request) {
             return $fields->reject(function ($field) use ($request) {
-                return $field instanceof ListableField || !$field->isShownOnIndex($request, $this->resource);
+                return $field instanceof ListableField || ! $field->isShownOnIndex($request, $this->resource);
             });
         })->each(function ($field) use ($request) {
             if ($field instanceof Resolvable && ! $field->pivot) {
@@ -73,7 +73,7 @@ trait ResolvesFields
     /**
      * Resolve the detail fields and assign them to their associated panel.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function detailFieldsWithinPanels(NovaRequest $request)
@@ -100,21 +100,21 @@ trait ResolvesFields
     /**
      * Return the creation fields excluding any readonly ones.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function creationFieldsWithoutReadonly(NovaRequest $request)
     {
         return $this->creationFields($request)
-            ->reject(function ($field) use ($request) {
-                return $field->isReadonly($request);
-            });
+                    ->reject(function ($field) use ($request) {
+                        return $field->isReadonly($request);
+                    });
     }
 
     /**
      * Resolve the creation fields and assign them to their associated panel.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function creationFieldsWithinPanels(NovaRequest $request)
@@ -129,7 +129,7 @@ trait ResolvesFields
      * Resolve the creation pivot fields for a related resource.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param string $relatedResource
+     * @param  string  $relatedResource
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function creationPivotFields(NovaRequest $request, $relatedResource)
@@ -142,8 +142,8 @@ trait ResolvesFields
     /**
      * Remove non-creation fields from the given collection.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @param \Laravel\Nova\Fields\FieldCollection $fields
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Fields\FieldCollection  $fields
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     protected function removeNonCreationFields(NovaRequest $request, FieldCollection $fields)
@@ -153,7 +153,7 @@ trait ResolvesFields
                    $field instanceof ResourceToolElement ||
                    $field->attribute === 'ComputedField' ||
                    ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
-                !$field->isShownOnCreation($request);
+                   ! $field->isShownOnCreation($request);
         });
     }
 
@@ -173,21 +173,21 @@ trait ResolvesFields
     /**
      * Return the update fields excluding any readonly ones.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function updateFieldsWithoutReadonly(NovaRequest $request)
     {
         return $this->updateFields($request)
-            ->reject(function ($field) use ($request) {
-                return $field->isReadonly($request);
-            });
+                    ->reject(function ($field) use ($request) {
+                        return $field->isReadonly($request);
+                    });
     }
 
     /**
      * Resolve the update fields and assign them to their associated panel.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function updateFieldsWithinPanels(NovaRequest $request)
@@ -202,7 +202,7 @@ trait ResolvesFields
      * Resolve the update pivot fields for a related resource.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param string $relatedResource
+     * @param  string  $relatedResource
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function updatePivotFields(NovaRequest $request, $relatedResource)
@@ -215,8 +215,8 @@ trait ResolvesFields
     /**
      * Remove non-update fields from the given collection.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @param \Laravel\Nova\Fields\FieldCollection $fields
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Fields\FieldCollection  $fields
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     protected function removeNonUpdateFields(NovaRequest $request, FieldCollection $fields)
@@ -226,15 +226,15 @@ trait ResolvesFields
                    $field instanceof ResourceToolElement ||
                    $field->attribute === 'ComputedField' ||
                    ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
-                !$field->isShownOnUpdate($request, $this->resource);
+                   ! $field->isShownOnUpdate($request, $this->resource);
         });
     }
 
     /**
      * Resolve the given fields to their values.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @param \Closure|null $filter
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Closure|null  $filter
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     protected function resolveFields(NovaRequest $request, Closure $filter = null)
@@ -273,14 +273,14 @@ trait ResolvesFields
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  string  $attribute
-     * @param string|null $morphType
+     * @param  string|null  $morphType
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function resolveInverseFieldsForAttribute(NovaRequest $request, $attribute, $morphType = null)
     {
         $field = $this->availableFields($request)
-            ->filter->authorize($request)
-            ->findFieldByAttribute($attribute);
+                      ->filter->authorize($request)
+                      ->findFieldByAttribute($attribute);
 
         if (! isset($field->resourceClass)) {
             return new FieldCollection();
@@ -352,7 +352,7 @@ trait ResolvesFields
     /**
      * Get the panels that are available for the given create request.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Illuminate\Support\Collection
      */
     public function availablePanelsForCreate($request)
@@ -363,7 +363,7 @@ trait ResolvesFields
     /**
      * Get the panels that are available for the given update request.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Illuminate\Support\Collection
      */
     public function availablePanelsForUpdate($request)
@@ -385,7 +385,7 @@ trait ResolvesFields
     /**
      * Get the fields that are available for the given request.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     public function availableFields(NovaRequest $request)
@@ -517,8 +517,8 @@ trait ResolvesFields
     /**
      * Return the panels for this request with the default label.
      *
-     * @param string $label
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  string  $label
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return \Illuminate\Support\Collection
      */
     protected function panelsWithDefaultLabel($label, NovaRequest $request)
@@ -536,14 +536,14 @@ trait ResolvesFields
     /**
      * Assign the fields with the given panels to their parent panel.
      *
-     * @param string $label
-     * @param \Laravel\Nova\Fields\FieldCollection $fields
+     * @param  string  $label
+     * @param  \Laravel\Nova\Fields\FieldCollection  $fields
      * @return \Laravel\Nova\Fields\FieldCollection
      */
     protected function assignToPanels($label, FieldCollection $fields)
     {
         return $fields->map(function ($field) use ($label) {
-            if (!$field->panel) {
+            if (! $field->panel) {
                 $field->panel = $label;
             }
 

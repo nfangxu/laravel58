@@ -30,9 +30,9 @@ class ResourceDestroyTest extends IntegrationTest
         $role2 = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()
-            ->deleteJson('/nova-api/roles', [
-                'resources' => [$role->id, $role2->id],
-            ]);
+                        ->deleteJson('/nova-api/roles', [
+                            'resources' => [$role->id, $role2->id],
+                        ]);
 
         $response->assertStatus(200);
 
@@ -53,9 +53,9 @@ class ResourceDestroyTest extends IntegrationTest
         $role->users()->attach($user);
 
         $response = $this->withExceptionHandling()
-            ->deleteJson('/nova-api/roles', [
-                'resources' => [$role->id],
-            ]);
+                        ->deleteJson('/nova-api/roles', [
+                            'resources' => [$role->id],
+                        ]);
 
         unset($_SERVER['__nova.role.prunable']);
 
@@ -71,9 +71,9 @@ class ResourceDestroyTest extends IntegrationTest
         $role2 = factory(Role::class)->create();
 
         $response = $this->withExceptionHandling()
-            ->deleteJson('/nova-api/roles?search=1', [
-                'resources' => 'all',
-            ]);
+                        ->deleteJson('/nova-api/roles?search=1', [
+                            'resources' => 'all',
+                        ]);
 
         $response->assertStatus(200);
 
@@ -97,9 +97,9 @@ class ResourceDestroyTest extends IntegrationTest
         ]));
 
         $response = $this->withExceptionHandling()
-            ->deleteJson('/nova-api/roles?filters='.$filters, [
-                'resources' => 'all',
-            ]);
+                        ->deleteJson('/nova-api/roles?filters='.$filters, [
+                            'resources' => 'all',
+                        ]);
 
         $response->assertStatus(200);
 
@@ -116,9 +116,9 @@ class ResourceDestroyTest extends IntegrationTest
         $this->assertNull($user->deleted_at);
 
         $response = $this->withExceptionHandling()
-            ->deleteJson('/nova-api/users', [
-                'resources' => [$user->id],
-            ]);
+                        ->deleteJson('/nova-api/users', [
+                            'resources' => [$user->id],
+                        ]);
 
         $response->assertStatus(200);
 
@@ -142,9 +142,9 @@ class ResourceDestroyTest extends IntegrationTest
         Gate::policy(User::class, UserPolicy::class);
 
         $response = $this->withExceptionHandling()
-            ->deleteJson('/nova-api/users', [
-                'resources' => [$user->id],
-            ]);
+                        ->deleteJson('/nova-api/users', [
+                            'resources' => [$user->id],
+                        ]);
 
         unset($_SERVER['nova.user.authorizable']);
         unset($_SERVER['nova.user.deletable']);
@@ -183,9 +183,9 @@ class ResourceDestroyTest extends IntegrationTest
         $role->users()->attach($user);
 
         $response = $this->withExceptionHandling()
-            ->deleteJson('/nova-api/roles', [
-                'resources' => [$role->id],
-            ]);
+                        ->deleteJson('/nova-api/roles', [
+                            'resources' => [$role->id],
+                        ]);
 
         $actionEvent = ActionEvent::first();
 

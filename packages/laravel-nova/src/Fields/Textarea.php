@@ -43,8 +43,8 @@ class Textarea extends Field
     /**
      * Resolve the field's value for display.
      *
-     * @param mixed $resource
-     * @param string|null $attribute
+     * @param  mixed  $resource
+     * @param  string|null  $attribute
      * @return void
      */
     public function resolveForDisplay($resource, $attribute = null)

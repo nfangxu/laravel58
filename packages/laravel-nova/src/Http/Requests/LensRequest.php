@@ -53,7 +53,7 @@ class LensRequest extends NovaRequest
 
         if ($this->lens()->resolveFields($this)->findFieldByAttribute($this->orderBy)) {
             return $query->orderBy(
-                ($this->tableOrderPrefix ? $query->getModel()->getTable() . '.' : '') . $this->orderBy,
+                ($this->tableOrderPrefix ? $query->getModel()->getTable().'.' : '').$this->orderBy,
                 $this->orderByDirection === 'asc' ? 'asc' : 'desc'
             );
         }

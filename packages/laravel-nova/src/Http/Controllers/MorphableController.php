@@ -21,8 +21,8 @@ class MorphableController extends Controller
 
         $field = $request->newResource()
                         ->availableFields($request)
-            ->whereInstanceOf(RelatableField::class)
-            ->findFieldByAttribute($request->field);
+                        ->whereInstanceOf(RelatableField::class)
+                        ->findFieldByAttribute($request->field);
 
         $withTrashed = $this->shouldIncludeTrashed(
             $request, $relatedResource

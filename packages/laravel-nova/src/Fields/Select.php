@@ -16,7 +16,7 @@ class Select extends Field
     /**
      * Set the options for the select menu.
      *
-     * @param array|\Closure|\Illuminate\Support\Collection
+     * @param  array|\Closure|\Illuminate\Support\Collection
      * @return $this
      */
     public function options($options)
@@ -34,7 +34,7 @@ class Select extends Field
 
     protected function isCallableArray($options)
     {
-        return $this->isCountable($options) && !Arr::isAssoc($options) && method_exists($options[0], $options[1]);
+        return $this->isCountable($options) && ! Arr::isAssoc($options) && method_exists($options[0], $options[1]);
     }
 
     protected function isCountable($options)

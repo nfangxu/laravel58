@@ -133,17 +133,17 @@ class File extends Field implements StorableContract, DeletableContract
     protected function prepareStorageCallback($storageCallback)
     {
         $this->storageCallback = $storageCallback ?? function ($request, $model, $attribute, $requestAttribute) {
-                return $this->mergeExtraStorageColumns($request, [
-                    $this->attribute => $this->storeFile($request, $requestAttribute),
-                ]);
-            };
+            return $this->mergeExtraStorageColumns($request, [
+                $this->attribute => $this->storeFile($request, $requestAttribute),
+            ]);
+        };
     }
 
     /**
      * Store the file on disk.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param string $requestAttribute
+     * @param  string  $requestAttribute
      * @return string
      */
     protected function storeFile($request, $requestAttribute)

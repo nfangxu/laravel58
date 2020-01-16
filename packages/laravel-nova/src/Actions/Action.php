@@ -191,8 +191,8 @@ class Action implements JsonSerializable
     /**
      * Return a Vue router response from the action.
      *
-     * @param string $path
-     * @param array $query
+     * @param  string  $path
+     * @param  array  $query
      * @return array
      */
     public static function push($path, $query = [])
@@ -256,8 +256,8 @@ class Action implements JsonSerializable
                 }
 
                 return DispatchAction::forModels(
-                    $request, $this, $method, $models, $fields
-                );
+                $request, $this, $method, $models, $fields
+            );
             }
         );
 
@@ -271,8 +271,8 @@ class Action implements JsonSerializable
     /**
      * Handle chunk results.
      *
-     * @param \Laravel\Nova\Fields\ActionFields $fields
-     * @param array $results
+     * @param  \Laravel\Nova\Fields\ActionFields  $fields
+     * @param  array  $results
      *
      * @return mixed
      */
@@ -337,8 +337,8 @@ class Action implements JsonSerializable
     {
         $this->onlyOnIndex = $value;
         $this->showOnIndex = $value;
-        $this->showOnDetail = !$value;
-        $this->showOnTableRow = !$value;
+        $this->showOnDetail = ! $value;
+        $this->showOnTableRow = ! $value;
 
         return $this;
     }
@@ -367,8 +367,8 @@ class Action implements JsonSerializable
     {
         $this->onlyOnDetail = $value;
         $this->showOnDetail = $value;
-        $this->showOnIndex = !$value;
-        $this->showOnTableRow = !$value;
+        $this->showOnIndex = ! $value;
+        $this->showOnTableRow = ! $value;
 
         return $this;
     }
@@ -390,14 +390,14 @@ class Action implements JsonSerializable
     /**
      * Indicate that this action is only available on the resource's table row.
      *
-     * @param bool $value
+     * @param  bool  $value
      * @return $this
      */
     public function onlyOnTableRow($value = true)
     {
         $this->showOnTableRow = $value;
-        $this->showOnIndex = !$value;
-        $this->showOnDetail = !$value;
+        $this->showOnIndex = ! $value;
+        $this->showOnDetail = ! $value;
 
         return $this;
     }

@@ -29,8 +29,8 @@ class AssetServeTest extends IntegrationTest
         $this->assertInstanceOf(BinaryFileResponse::class, $response->baseResponse);
 
         $this->withExceptionHandling()
-            ->get('/nova-api/scripts/nova-tool', ['If-Modified-Since' => $response->headers->get('Last-Modified')])
-            ->assertStatus(304);
+             ->get('/nova-api/scripts/nova-tool', ['If-Modified-Since' => $response->headers->get('Last-Modified')])
+             ->assertStatus(304);
     }
 
     public function test_can_serve_styles()
@@ -47,8 +47,8 @@ class AssetServeTest extends IntegrationTest
         $this->assertInstanceOf(BinaryFileResponse::class, $response->baseResponse);
 
         $this->withExceptionHandling()
-            ->get('/nova-api/styles/nova-tool', ['If-Modified-Since' => $response->headers->get('Last-Modified')])
-            ->assertStatus(304);
+             ->get('/nova-api/styles/nova-tool', ['If-Modified-Since' => $response->headers->get('Last-Modified')])
+             ->assertStatus(304);
     }
 
     public function test_404_is_returned_if_script_doesnt_exist()

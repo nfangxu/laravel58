@@ -229,7 +229,7 @@ class ResourceAttachmentTest extends IntegrationTest
         $user2 = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
-            ->postJson('/nova-api/users/' . $user->id . '/attach/users', [
+            ->postJson('/nova-api/users/'.$user->id.'/attach/users', [
                 'users' => $user2->id,
                 'viaRelationship' => 'relatedUsers',
             ]);

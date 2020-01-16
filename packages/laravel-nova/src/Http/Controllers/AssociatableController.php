@@ -18,8 +18,8 @@ class AssociatableController extends Controller
     {
         $field = $request->newResource()
                     ->availableFields($request)
-            ->whereInstanceOf(RelatableField::class)
-            ->findFieldByAttribute($request->field);
+                    ->whereInstanceOf(RelatableField::class)
+                    ->findFieldByAttribute($request->field);
 
         $withTrashed = $this->shouldIncludeTrashed(
             $request, $associatedResource = $field->resourceClass

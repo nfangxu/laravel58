@@ -19,10 +19,10 @@ class SelectTest extends IntegrationTest
             'S' => 'Small',
         ])->displayUsingLabels();
 
-        $field->resolve((object)['size' => 'L'], 'size');
+        $field->resolve((object) ['size' => 'L'], 'size');
         $this->assertEquals('L', $field->value);
 
-        $field->resolveForDisplay((object)['size' => 'L'], 'size');
+        $field->resolveForDisplay((object) ['size' => 'L'], 'size');
         $this->assertEquals('Large', $field->value);
     }
 
@@ -32,10 +32,10 @@ class SelectTest extends IntegrationTest
             'DateTimeZone', 'listIdentifiers',
         ]);
 
-        $field->resolve((object)['timezone' => 'America/Chicago'], 'timezone');
+        $field->resolve((object) ['timezone' => 'America/Chicago'], 'timezone');
         $this->assertEquals('America/Chicago', $field->value);
 
-        $field->resolveForDisplay((object)['timezone' => 'America/Chicago'], 'timezone');
+        $field->resolveForDisplay((object) ['timezone' => 'America/Chicago'], 'timezone');
         $this->assertEquals('America/Chicago', $field->value);
     }
 

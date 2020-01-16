@@ -314,7 +314,7 @@ class MorphToMany extends Field implements DeletableContract, ListableField, Rel
         return array_merge(parent::jsonSerialize(), [
             'listable' => true,
             'morphToManyRelationship' => $this->manyToManyRelationship,
-            'perPage' => $this->resourceClass::$perPageViaRelationship,
+            'perPage'=> $this->resourceClass::$perPageViaRelationship,
             'resourceName' => $this->resourceName,
             'searchable' => $this->searchable,
             'singularLabel' => $this->singularLabel ?? Str::singular($this->name),

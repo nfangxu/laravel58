@@ -11,7 +11,7 @@ class DashboardCardController extends Controller
      * List the cards for the dashboard.
      *
      * @param  \Laravel\Nova\Http\Requests\DashboardCardRequest  $request
-     * @param string $dashboard
+     * @param  string  $dashboard
      * @return \Illuminate\Http\Response
      */
     public function index(DashboardCardRequest $request, $dashboard = 'main')

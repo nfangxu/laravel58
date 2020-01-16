@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="{{ mix('app.css', 'vendor/nova') }}">
 
     <!-- Custom Meta Data -->
-@include('nova::partials.meta')
+    @include('nova::partials.meta')
 
-<!-- Theme Styles -->
+    <!-- Theme Styles -->
     @foreach(Nova::themeStyles() as $publicPath)
         <link rel="stylesheet" href="{{ $publicPath }}">
     @endforeach

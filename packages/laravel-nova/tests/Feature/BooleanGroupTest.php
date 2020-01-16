@@ -51,8 +51,8 @@ class BooleanGroupTest extends IntegrationTest
     public function test_the_field_can_accept_collections_as_options()
     {
         $field = BooleanGroup::make('Sizes')->options(collect([
-            (object)['id' => 1, 'name' => 'create', 'label' => 'Create'],
-            (object)['id' => 2, 'name' => 'delete', 'label' => 'Delete'],
+            (object) ['id' => 1, 'name' => 'create', 'label' => 'Create'],
+            (object) ['id' => 2, 'name' => 'delete', 'label' => 'Delete'],
         ])->pluck('label', 'name'));
 
         $this->assertEquals([

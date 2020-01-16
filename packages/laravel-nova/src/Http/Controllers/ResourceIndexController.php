@@ -42,7 +42,7 @@ class ResourceIndexController extends Controller
         return $request->toQuery()->simplePaginate(
             $request->viaRelationship()
                         ? $resource::$perPageViaRelationship
-                : ($request->perPage ?? $resource::perPageOptions()[0])
+                        : ($request->perPage ?? $resource::perPageOptions()[0])
         );
     }
 }

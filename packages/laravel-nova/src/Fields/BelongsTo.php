@@ -172,7 +172,7 @@ class BelongsTo extends Field implements RelatableField
     /**
      * Define the callback that should be used to resolve the field's value.
      *
-     * @param callable $displayCallback
+     * @param  callable  $displayCallback
      * @return $this
      */
     public function displayUsing(callable $displayCallback)

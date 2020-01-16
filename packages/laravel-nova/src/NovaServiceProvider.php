@@ -158,7 +158,7 @@ class NovaServiceProvider extends ServiceProvider
         Nova::serving(function (ServingNova $event) {
             // Load the default Nova translations.
             Nova::translations(
-                resource_path('lang/vendor/nova/' . app()->getLocale() . '.json')
+                resource_path('lang/vendor/nova/'.app()->getLocale().'.json')
             );
 
             Nova::provideToScript([

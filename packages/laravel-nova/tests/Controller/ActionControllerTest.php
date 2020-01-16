@@ -201,11 +201,11 @@ class ActionControllerTest extends IntegrationTest
         $user = factory(User::class)->create();
 
         $response = $this->withExceptionHandling()
-            ->post('/nova-api/users/action?action=' . (new UnrunnableDestructiveAction)->uriKey(), [
-                'resources' => $user->id,
-                'test' => 'Taylor Otwell',
-                'callback' => '',
-            ]);
+                        ->post('/nova-api/users/action?action='.(new UnrunnableDestructiveAction)->uriKey(), [
+                            'resources' => $user->id,
+                            'test' => 'Taylor Otwell',
+                            'callback' => '',
+                        ]);
 
         $response->assertStatus(200);
         $this->assertEmpty(UnrunnableDestructiveAction::$applied);
@@ -441,11 +441,11 @@ class ActionControllerTest extends IntegrationTest
         $_SERVER['nova.user.actionCallbacks'] = true;
 
         $response = $this->withExceptionHandling()
-            ->post('/nova-api/users/action?action=' . (new QueuedAction)->uriKey(), [
-                'resources' => implode(',', [$user->id, $user2->id]),
-                'test' => 'Taylor Otwell',
-                'callback' => '',
-            ]);
+                         ->post('/nova-api/users/action?action='.(new QueuedAction)->uriKey(), [
+                             'resources' => implode(',', [$user->id, $user2->id]),
+                             'test' => 'Taylor Otwell',
+                             'callback' => '',
+                         ]);
 
         unset($_SERVER['nova.user.actionCallbacks']);
 

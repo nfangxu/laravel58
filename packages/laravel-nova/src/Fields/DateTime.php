@@ -58,7 +58,7 @@ class DateTime extends Field
     /**
      * Set the date format (flatpickr.js) that should be used to display the date in the input field (picker).
      *
-     * @param string $format
+     * @param  string  $format
      * @return $this
      */
     public function pickerFormat($format)

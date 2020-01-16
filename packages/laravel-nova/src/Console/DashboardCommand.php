@@ -31,7 +31,7 @@ class DashboardCommand extends GeneratorCommand
     /**
      * Build the class with the given name.
      *
-     * @param string $name
+     * @param  string  $name
      * @return string
      */
     protected function buildClass($name)
@@ -50,17 +50,17 @@ class DashboardCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return realpath(__DIR__ . '/stubs/dashboard.stub');
+        return realpath(__DIR__.'/stubs/dashboard.stub');
     }
 
     /**
      * Get the default namespace for the class.
      *
-     * @param string $rootNamespace
+     * @param  string  $rootNamespace
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\Nova\Dashboards';
+        return $rootNamespace.'\Nova\Dashboards';
     }
 }

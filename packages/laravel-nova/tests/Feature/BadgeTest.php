@@ -7,7 +7,7 @@ use Laravel\Nova\Tests\IntegrationTest;
 
 class BadgeTest extends IntegrationTest
 {
-    public function setUp(): void
+    public function setUp() : void
     {
         parent::setUp();
     }
@@ -16,7 +16,7 @@ class BadgeTest extends IntegrationTest
     {
         $field = Badge::make('Status');
 
-        $field->resolve((object)['status' => 'danger']);
+        $field->resolve((object) ['status' => 'danger']);
 
         $result = $field->jsonSerialize();
 
@@ -31,7 +31,7 @@ class BadgeTest extends IntegrationTest
             return 'info';
         });
 
-        $field->resolve((object)[]);
+        $field->resolve((object) []);
 
         $result = $field->jsonSerialize();
 
@@ -47,7 +47,7 @@ class BadgeTest extends IntegrationTest
             'published' => 'success',
         ]);
 
-        $field->resolve((object)['status' => 'published']);
+        $field->resolve((object) ['status' => 'published']);
 
         $result = $field->jsonSerialize();
 
@@ -65,7 +65,7 @@ class BadgeTest extends IntegrationTest
             'published' => 'success',
         ]);
 
-        $field->resolve((object)[]);
+        $field->resolve((object) []);
 
         $result = $field->jsonSerialize();
 
@@ -82,7 +82,7 @@ class BadgeTest extends IntegrationTest
             'draft' => 'custom class names',
         ]);
 
-        $field->resolve((object)[]);
+        $field->resolve((object) []);
 
         $result = $field->jsonSerialize();
 
@@ -98,7 +98,7 @@ class BadgeTest extends IntegrationTest
             'draft' => ['custom', 'class', 'names'],
         ]);
 
-        $field->resolve((object)[]);
+        $field->resolve((object) []);
 
         $result = $field->jsonSerialize();
 
@@ -114,7 +114,7 @@ class BadgeTest extends IntegrationTest
             'draft' => 'custom class names',
         ]);
 
-        $field->resolve((object)[]);
+        $field->resolve((object) []);
 
         $result = $field->jsonSerialize();
 
@@ -130,7 +130,7 @@ class BadgeTest extends IntegrationTest
             'success' => 'custom class names',
         ]);
 
-        $field->resolve((object)[]);
+        $field->resolve((object) []);
 
         $result = $field->jsonSerialize();
 
@@ -145,7 +145,7 @@ class BadgeTest extends IntegrationTest
             'danger' => 'Refunded',
         ]);
 
-        $field->resolve((object)['status' => 'danger']);
+        $field->resolve((object) ['status' => 'danger']);
 
         $result = $field->jsonSerialize();
 
@@ -162,13 +162,13 @@ class BadgeTest extends IntegrationTest
             false => 'No',
         ]);
 
-        $field->resolve((object)['status' => true]);
+        $field->resolve((object) ['status' => true]);
 
         $result = $field->jsonSerialize();
 
         $this->assertEquals('Yes', $result['label']);
 
-        $field->resolve((object)['status' => false]);
+        $field->resolve((object) ['status' => false]);
 
         $result = $field->jsonSerialize();
 
@@ -180,10 +180,10 @@ class BadgeTest extends IntegrationTest
         $field = Badge::make('Status', function () {
             return 'danger';
         })->label(function ($value) {
-            return 'Custom: ' . $value;
+            return 'Custom: '.$value;
         });
 
-        $field->resolve((object)[]);
+        $field->resolve((object) []);
 
         $result = $field->jsonSerialize();
 

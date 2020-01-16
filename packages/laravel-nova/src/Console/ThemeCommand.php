@@ -37,13 +37,13 @@ class ThemeCommand extends Command
             return;
         }
 
-        (new Filesystem)->copyDirectory(__DIR__ . '/theme-stubs', $this->themePath());
+        (new Filesystem)->copyDirectory(__DIR__.'/theme-stubs', $this->themePath());
 
         // ThemeServiceProvider.php replacements...
         $this->replace('{{ namespace }}', $this->themeNamespace(), $this->themePath().'/src/ThemeServiceProvider.stub');
         $this->replace('{{ component }}', $this->themeName(), $this->themePath().'/src/ThemeServiceProvider.stub');
         $this->replace('{{ name }}', $this->themeName(), $this->themePath().'/src/ThemeServiceProvider.stub');
-        $this->replace('{{ vendor }}', $this->argument('name'), $this->themePath() . '/src/ThemeServiceProvider.stub');
+        $this->replace('{{ vendor }}', $this->argument('name'), $this->themePath().'/src/ThemeServiceProvider.stub');
 
         // Theme composer.json replacements...
         $this->replace('{{ name }}', $this->argument('name'), $this->themePath().'/composer.json');

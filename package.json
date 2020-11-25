@@ -24,7 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "highlight.js": "^9.15.8",
+        "highlight.js": "^10.1.2",
         "vue-markdown": "^2.2.4"
     }
 }
